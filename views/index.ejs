@@ -1,11 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1>Inicio de sesion</h1>
+
+  <form action="formulario" method="post">
+    <label for="user">
+      Usuario
+      <input type="text" name="user" id="user">
+    </label>
+    <label for="password">
+      Contraseña
+      <input type="password" name="password" id="password">
+    </label>
+
+    <button type="submit">Enviar</button>
+  </form>
+
+  <%= status %>
+</body>
+
 </html>
