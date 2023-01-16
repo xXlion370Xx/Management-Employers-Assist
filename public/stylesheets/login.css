@@ -38,3 +38,8 @@ form {
   height: 40px;
   border-radius: 10px;
 }
+
+.status-response {
+  font-size: 20px;
+  color: #f30909;
+}
