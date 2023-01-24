@@ -3,26 +3,20 @@ let express = require('express');
 let router = express.Router();
 let connectDB = require('../connection');
 
-
-let status = "Error";
+connectDB.connect();
 
 router.post("/", (req, res) => {
     let data = req.body;
+    let query = connectDB.query(`SELECT * FROM usuarios WHERE Usuario = ? and Contraseña = ?`,
+        [data.user, data.password]);
 
-    connectDB.connect();
+    if (query == null) {
+        req.session.errorMessage = 'Algo salio mal';
+        res.redirect('/formulario');
+    } else {
+        res.redirect('/asist');
+    }
 
-    connectDB.query(`INSERT INTO usuarios (Usuario, Contraseña) VALUES( ?, ?)`,
-        [data.user, data.password],
-        function (err, result) {
-            if (err) {
-                res.render('index', { tittle: 'Inicio', status })
-            };
-            console.log(result);
-        });
-
-    connectDB.end();
-
-    res.render('users', { title: 'user' });
 });
-
+connectDB.end();
 module.exports = router;

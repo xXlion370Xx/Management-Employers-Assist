@@ -31,9 +31,11 @@
 
     <button type="submit" class="button">Ingresar</button>
 
-    <p class="status-response">
-      <%= status %>
-    </p>
+    <% if (typeof error_message !=='undefined' ) { %>
+      <div class="error-message">
+        <%= error_message %>
+      </div>
+      <% } %>
   </form>
 
 
