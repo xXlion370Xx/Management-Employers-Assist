@@ -1,12 +1,15 @@
-let createError = require('http-errors');
-let express = require('express');
-let path = require('path');
-let cookieParser = require('cookie-parser');
-let logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const mysql = require('mysql')
+const myconnection = require('express-myconnection');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const form = require('./routes/form');
+const dbConfig = require('./model/dbConfig');
 
-let indexRouter = require('./routes/index');
-let usersRouter = require('./routes/users');
-let formulario = require('./routes/formulario');
 
 var app = express();
 
@@ -19,10 +22,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(myconnection(mysql, dbConfig, 'single'));
 
 app.use('/', indexRouter);
-app.use('/formulario', formulario);
+app.use('/form', form);
 app.use('/users', usersRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

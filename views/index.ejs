@@ -18,7 +18,7 @@
 </head>
 
 <body>
-  <form action="formulario" method="post" class="form">
+  <form action="form" method="post" class="form">
     <h1>Inicio de sesión</h1>
     <label for="user">
       Usuario<br>
@@ -33,7 +33,7 @@
 
     <% if (typeof error_message !=='undefined' ) { %>
       <div class="error-message">
-        <%= error_message %>
+        <%= errorMessage %>
       </div>
       <% } %>
   </form>
