@@ -18,7 +18,7 @@
 </head>
 
 <body>
-  <form action="form" method="post" class="form">
+  <form action="form/login" method="post" class="form">
     <h1>Inicio de sesión</h1>
     <label for="user">
       Usuario<br>
@@ -30,8 +30,9 @@
     </label>
 
     <button type="submit" class="button">Ingresar</button>
+    <p>No tienes cuenta? crea una <a href="form/register">aqui</a> </p>
 
-    <% if (typeof error_message !=='undefined' ) { %>
+    <% if (typeof errorMessage !=='undefined' ) { %>
       <div class="error-message">
         <%= errorMessage %>
       </div>
