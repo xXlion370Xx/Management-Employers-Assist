@@ -30,8 +30,12 @@
         </label>
 
         <button type="submit" class="button">Ingresar</button>
-
-
+        <a href="/">Volver</a>
+        <% if (typeof errorMessage !=='undefined' ) { %>
+            <div class="error-message">
+                <%= errorMessage %>
+            </div>
+            <% } %>
     </form>
 
 
