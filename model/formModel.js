@@ -28,21 +28,15 @@ const login = (req, res) => {
             console.log("No se pudo conectar a la base de datos debido a " + err);
         }
         conn.query(sql, [reqData.user, reqData.password], (err, data) => {
-            if (data.length > 0) {
-                res.status(200).render('home', { user: data[0].Usuario, rol: data[0].Tipo });
-                // console.log("Este es el param err: " + err);
-                // console.log("Este es el param data: " + data.Usuario);
-                // console.log("Este es el param data: " + data[0].Usuario);
-                // console.log("tamaño del data: " + data.length);
-
-                console.log("Inicio de sesion correctamente");
-                console.log("Rol" + data[0].Tipo);
-                //res.send("Inicio de sesion correctamente " + "Bienvenido " + data[0].Usuario);
-            } else {
-                console.log("No se pudo iniciar sesión");
-                res.render('login', { title: 'Error iniciar sesion', errorMessage: 'Algo salio mal' });
+            if (data.length === 0) {
+                res.render('login', { title: 'Iniciar Sesión', errorMessage: 'Algo salio mal' });
+                console.log("No se encontro registro con esa data: Obj-> " + data.length);
+                return;
             }
-        })
+            if (data[0].Usuario == reqData.user && data[0].Contraseña == reqData.password) {
+                res.render('home', { user: data[0].Usuario, rol: data[0].Tipo });
+            }
+        });
     });
 
 }
