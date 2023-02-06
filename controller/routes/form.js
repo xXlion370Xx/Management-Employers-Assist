@@ -1,7 +1,7 @@
 const { render } = require('ejs');
 let express = require('express');
 let router = express.Router();
-const formModel = require('../model/formModel');
+const formModel = require('../../model/formModel');
 
 router.get('/register', (req, res) => {
     res.render('register');
