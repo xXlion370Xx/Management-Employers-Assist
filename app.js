@@ -5,9 +5,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mysql = require('mysql');
 const myconnection = require('express-myconnection');
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const form = require('./routes/form');
+const indexRouter = require('./controller/routes/index');
+const usersRouter = require('./controller/routes/users');
+const form = require('./controller/routes/form');
 const dbConfig = require('./model/dbConfig');
 
 

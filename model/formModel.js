@@ -1,11 +1,12 @@
 const register = (req, res) => {
     const data = req.body;
-    let sql = 'INSERT INTO usuarios (Usuario, Contraseña) VALUES(?, ?)';
 
     req.getConnection((err, conn) => {
         if (err) {
             console.log("No se pudo conectar a la base de datos debido a " + err);
         }
+
+        const sql = 'INSERT INTO usuarios (Usuario, Contraseña) VALUES(?, ?)';
         conn.query(sql, [data.user, data.password], (err, rows) => {
             if (err) {
                 console.log(sql)
@@ -21,12 +22,13 @@ const register = (req, res) => {
 
 const login = (req, res) => {
     const reqData = req.body;
-    let sql = "SELECT * FROM usuarios WHERE Usuario = ? and Contraseña = ?";
 
     req.getConnection((err, conn) => {
         if (err) {
             console.log("No se pudo conectar a la base de datos debido a " + err);
         }
+
+        const sql = "SELECT * FROM usuarios WHERE Usuario = ? and Contraseña = ?";
         conn.query(sql, [reqData.user, reqData.password], (err, data) => {
             if (data.length === 0) {
                 res.render('login', { title: 'Iniciar Sesión', errorMessage: 'Algo salio mal' });
