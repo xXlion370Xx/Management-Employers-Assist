@@ -13,6 +13,20 @@ const dateExist = (req, res) => {
                 console.log("Query error");
                 console.log(err);
             }
+            // TODO validate data not exist
+            if (data.length === 0) {
+                const objResponse =
+                {
+                    id: null,
+                    id_usuario: null,
+                    entrada: null,
+                    salida: null,
+                    fecha: null
+                }
+
+                res.send(objResponse);
+            }
+
             res.send(data[data.length - 1]);
         });
     });
