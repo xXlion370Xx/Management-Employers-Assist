@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 const register = (req, res) => {
     const data = req.body;
 
@@ -26,10 +28,13 @@ const login = (req, res) => {
     req.getConnection((err, conn) => {
         if (err) {
             console.log("No se pudo conectar a la base de datos debido a " + err);
+            console.log(err);
         }
 
         const sql = "SELECT * FROM usuarios WHERE Usuario = ? and Contraseña = ?";
         conn.query(sql, [reqData.user, reqData.password], (err, data) => {
+            if (err) throw err;
+
             if (data.length === 0) {
                 res.render('login', { title: 'Iniciar Sesión', errorMessage: 'Algo salio mal' });
                 console.log("No se encontro registro con esa data: Obj-> " + data.length);
@@ -43,6 +48,13 @@ const login = (req, res) => {
 
 }
 
+const generateToken = (data) => {
+    const payload = {
+        id: data.id,
+        user: data.user,
+        password: data.password
+    }
+}
 module.exports = {
     register: register,
     login: login,
