@@ -12,8 +12,9 @@ const dateExist = (req, res) => {
             if (err) {
                 console.log("Query error");
                 console.log(err);
+
+                return;
             }
-            // TODO validate data not exist
             if (data.length === 0) {
                 const objResponse =
                 {
@@ -23,8 +24,9 @@ const dateExist = (req, res) => {
                     salida: null,
                     fecha: null
                 }
+                res.json(objResponse);
 
-                res.send(objResponse);
+                return;
             }
 
             res.send(data[data.length - 1]);
