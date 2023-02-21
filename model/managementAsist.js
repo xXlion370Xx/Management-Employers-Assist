@@ -7,7 +7,7 @@ const dateExist = (req, res) => {
             console.log(err);
         }
 
-        const sql = "SELECT * FROM asistencia WHERE id_usuario = ?";
+        const sql = "SELECT * FROM asist WHERE id_user = ?";
         conn.query(sql, [userId], (err, data) => {
             if (err) {
                 console.log("Query error");

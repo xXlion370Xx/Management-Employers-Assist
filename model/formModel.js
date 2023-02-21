@@ -1,25 +1,35 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
-const register = (req, res) => {
-    const data = req.body;
+const register = async (req, res) => {
+    const { user, password } = req.body;
 
-    req.getConnection((err, conn) => {
+    bcrypt.hash(password, 10, (err, hash) => {
         if (err) {
-            console.log("No se pudo conectar a la base de datos debido a " + err);
-        }
+            console.log("Can´t encrypt due to" + err);
 
-        const sql = 'INSERT INTO usuarios (Usuario, Contraseña) VALUES(?, ?)';
-        conn.query(sql, [data.user, data.password], (err, rows) => {
+            return;
+        }
+        req.getConnection((err, conn) => {
             if (err) {
-                console.log(sql)
-                console.log("No se pudo insertar el usuario a la base de datos debido a: " + err)
-                res.render('register', { errorMessage: 'Algo salio mal' })
-            } else {
-                console.log("Registro exitoso");
-                res.send('Registro exitorsamente')
+                console.log("Can´t connect to database due to" + err);
+
+                return;
             }
+            const sql = 'INSERT INTO users (name, password) VALUES(?, ?)';
+            conn.query(sql, [user, hash], (err, rows) => {
+                if (err) {
+                    console.log(sql)
+                    console.log("Can´t insert the user due to: " + err)
+                    res.render('register', { errorMessage: 'Something went wrong' })
+                } else {
+                    console.log("Update succesful");
+                    res.send('Update succesful')
+                }
+            })
         })
     })
+
 }
 
 const login = (req, res) => {
@@ -31,7 +41,7 @@ const login = (req, res) => {
             console.log(err);
         }
 
-        const sql = "SELECT * FROM usuarios WHERE Usuario = ? and Contraseña = ?";
+        const sql = "SELECT * FROM users WHERE name = ? and password = ?";
         conn.query(sql, [reqData.user, reqData.password], (err, data) => {
             if (err) throw err;
 
