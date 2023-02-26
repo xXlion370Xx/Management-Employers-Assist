@@ -65,7 +65,6 @@ const login = async (req, res) => {
                     return;
                 }
                 generateToken(data[0], '1h').then(token => {
-                    console.log(token);
 
                     res.cookie('token', token, {
                         httpOnly: true,
@@ -74,7 +73,6 @@ const login = async (req, res) => {
                         user: data[0], user,
                         rol: data[0].rol
                     });
-
                 }).catch(err => {
                     console.log("Can´t generate token due to: " + err);
                 })

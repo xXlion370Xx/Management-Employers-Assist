@@ -1,12 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const userUpdate = require('../../model/managementAsist');
-/* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
-});
+const managementAsist = require('../../model/managementAsist');
 
-router.get('/userUpdate', userUpdate.dateExist);
-
+router.get('/asist', managementAsist.dateExist);
+router.post('/asist', managementAsist.insertDate);
 
 module.exports = router;

@@ -1,13 +1,11 @@
-async function dateExist(url, idUser) {
-    const response = await fetch(url + "?user=" + idUser);
+async function dateExist(url) {
+    const response = await fetch(url);
     return await response.json();
 }
 
-const url = "http://localhost:3000/users/userUpdate";
-const idUser = "43";
+const url = "http://localhost:3000/users/asist";
 
-
-dateExist(url, idUser)
+dateExist(url)
     .then(data => {
         // TODO Validate data not exist
         console.log(data);

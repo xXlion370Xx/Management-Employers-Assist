@@ -1,6 +1,15 @@
+const jwt = require('jsonwebtoken');
+const currentLocalTime = require('./api');
+const { query } = require('express');
+
 const dateExist = (req, res) => {
-    const userId = req.query.user;
-    // const userId = 5;
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res.status(401).send({ message: 'Don´t provide an authentication token!' });
+    }
+    const idUser = token.id;
+
     req.getConnection((err, conn) => {
         if (err) {
             console.log("Error in get connection");
@@ -8,7 +17,7 @@ const dateExist = (req, res) => {
         }
 
         const sql = "SELECT * FROM asist WHERE id_user = ?";
-        conn.query(sql, [userId], (err, data) => {
+        conn.query(sql, [idUser], (err, data) => {
             if (err) {
                 console.log("Query error");
                 console.log(err);
@@ -34,6 +43,56 @@ const dateExist = (req, res) => {
     });
 }
 
+const insertDate = (req, res) => {
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res.status(401).send({ message: 'No se proporcionó un token de autenticación.' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const idUser = decoded.id;
+
+        currentLocalTime.getCurrentLocalTime().then(response => {
+            timeNow = response.time;
+            dateNow = response.date;
+
+            req.getConnection((err, conn) => {
+                if (err) throw err;
+
+                const sql = "INSERT INTO asist (id_user, time_in, date) VALUES (?,?,?)"
+                conn.query(sql, [idUser, timeNow, dateNow], (err, data) => {
+                    if (err) {
+                        console.log("query error");
+                        console.log(err);
+
+                        return;
+                    }
+
+                    console.log(query.sql);
+
+                    if (data.length != 0) {
+                        res.send("inser correctly to db")
+
+                        return;
+                    }
+
+                    res.send("Something went wrong");
+                })
+            });
+        }).catch(err => {
+            res.send(err);
+        })
+
+
+    } catch (err) {
+        res.status(400).send("Token invalid");
+        console.log("Token invalid! due to :" + err);
+        console.log(err);
+    }
+}
 module.exports = {
     dateExist: dateExist,
+    insertDate: insertDate
 }
