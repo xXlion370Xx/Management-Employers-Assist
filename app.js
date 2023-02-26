@@ -7,7 +7,6 @@ const mysql = require('mysql');
 const myconnection = require('express-myconnection');
 const indexRouter = require('./controller/routes/index');
 const usersRouter = require('./controller/routes/users');
-const form = require('./controller/routes/form');
 const dbConfig = require('./model/dbConfig');
 
 
@@ -25,7 +24,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(myconnection(mysql, dbConfig, 'single'));
 
 app.use('/', indexRouter);
-app.use('/form', form);
 app.use('/users', usersRouter);
 
 
