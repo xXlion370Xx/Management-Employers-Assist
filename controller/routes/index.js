@@ -3,9 +3,7 @@ const router = express.Router();
 const formModel = require('../../model/formModel');
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  res.render('login', { title: 'Inicio de sesión', status: '' });
-});
+router.get('/', formModel.getHomePage);
 router.post('/login', formModel.login);
 
 router.get('/register', (req, res) => {

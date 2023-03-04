@@ -33,6 +33,56 @@ const register = async (req, res) => {
 
 }
 
+const getHomePage = (req, res) => {
+    const token = req.cookies.token;
+
+    if (!token) {
+        console.log("The client doesn't have a token");
+
+        return res.render('login', { title: 'Inicio de sesión', status: '' });
+    }
+
+    // Check if the token is in the black list tonkens database
+    req.getConnection((err, conn) => {
+        if (err) {
+            console.log("Can't connect to db due to: " + err);
+            return;
+        }
+
+        const sql = "SELECT * FROM blacklisted_tokens WHERE token = ?";
+        conn.query(sql, [token], (err, rows) => {
+            if (err) {
+                console.log("Can't query the black list token due to: " + err);
+                return;
+            }
+
+            if (rows.length == 0) {
+                jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+                    if (err) {
+                        console.log("An error ocurred while verifying the token!");
+                        return res.render('login', { title: 'Inicio de sesión', status: '' })
+                    }
+
+                    generateToken(decoded, '1h').then(token => {
+                        console.log("The client have a token!")
+                        res.cookie('token', token, {
+                            httpOnly: true,
+                            maxAge: 3600000 // 1 hour
+                        }).render('home', {
+                            user: token.name,
+                            rol: token.rol
+                        });
+                    })
+
+                });
+                return;
+            }
+            res.render('login');
+        })
+    })
+
+}
+
 const login = async (req, res) => {
     const { user, password } = req.body;
 
@@ -70,7 +120,7 @@ const login = async (req, res) => {
                         httpOnly: true,
                         maxAge: 3600000 // 1 hour
                     }).render('home', {
-                        user: data[0], user,
+                        user: data[0].user,
                         rol: data[0].rol
                     });
                 }).catch(err => {
@@ -85,7 +135,7 @@ const login = async (req, res) => {
 const generateToken = async (data, duration) => {
     const payload = {
         id: data.id,
-        user: data.name,
+        name: data.name,
         password: data.password,
         rol: data.rol
     }
@@ -95,4 +145,5 @@ const generateToken = async (data, duration) => {
 module.exports = {
     register: register,
     login: login,
+    getHomePage: getHomePage
 }

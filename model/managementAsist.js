@@ -55,8 +55,8 @@ const insertDate = (req, res) => {
         const idUser = decoded.id;
 
         currentLocalTime.getCurrentLocalTime().then(response => {
-            timeNow = response.time;
-            dateNow = response.date;
+            const timeNow = response.time;
+            const dateNow = response.date;
 
             req.getConnection((err, conn) => {
                 if (err) throw err;
