@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <%= user%>
+        Usuario
     </title>
     <script defer src="/javascripts/home.js"></script>
 </head>
@@ -14,17 +14,17 @@
 <body>
 
     <h1>
-        Registrar hora <%= user %>
+        Registrar hora
     </h1>
 
     <h2>
-        <%= rol %>
+
     </h2>
-    <form action="users/asist" method="post">
+    <form action="/users/asist" method="post">
         <button hidden id="buttonIn" class="button">Ingreso</button>
         <button hidden id="buttonOut" class="button">Salida</button>
     </form>
-    <a href="./users/logout">Cerrar sesion</a>
+    <a href="/users/logout">Cerrar sesion</a>
 
 </body>
 

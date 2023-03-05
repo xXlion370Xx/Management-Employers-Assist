@@ -88,7 +88,7 @@ const login = async (req, res) => {
 
     req.getConnection((err, conn) => {
         if (err) {
-            console.log("Can´t connect to databsae due to: " + err);
+            console.log("Can't connect to databsae due to: " + err);
             console.log(err);
         }
 
@@ -119,12 +119,9 @@ const login = async (req, res) => {
                     res.cookie('token', token, {
                         httpOnly: true,
                         maxAge: 3600000 // 1 hour
-                    }).render('home', {
-                        user: data[0].user,
-                        rol: data[0].rol
-                    });
+                    }).redirect('/users');
                 }).catch(err => {
-                    console.log("Can´t generate token due to: " + err);
+                    console.log("Can't generate token due to: " + err);
                 })
             });
         });

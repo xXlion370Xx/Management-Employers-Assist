@@ -6,7 +6,7 @@ const dateExist = (req, res) => {
     const token = req.cookies.token;
 
     if (!token) {
-        return res.status(401).send({ message: 'Don´t provide an authentication token!' });
+        return res.status(401).send({ message: "Don't provide an authentication token!" });
     }
     const idUser = token.id;
 
@@ -70,10 +70,12 @@ const insertDate = (req, res) => {
                         return;
                     }
 
-                    console.log(query.sql);
+                    let querySql = query.sql;
+
+                    console.log("Este es el query " + querySql);
 
                     if (data.length != 0) {
-                        res.send("inser correctly to db")
+                        res.redirect('/users/');
 
                         return;
                     }
