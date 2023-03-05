@@ -7,7 +7,7 @@ const mysql = require('mysql');
 const myconnection = require('express-myconnection');
 const indexRouter = require('./controller/routes/index');
 const usersRouter = require('./controller/routes/users');
-const dbConfig = require('./model/dbConfig');
+const dbConfig = require('./model/UTILS/dbConfig');
 
 
 const app = express();

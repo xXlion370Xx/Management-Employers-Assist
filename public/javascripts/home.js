@@ -18,15 +18,17 @@ dateExist(url)
 
 function handleButtonsAssist(dateExist) {
 
-    if (dateExist["entrada"] != null) {
-        const buttonOut = document.getElementById('buttonOut');
-        buttonOut.removeAttribute("hidden");
+    if (dateExist["time_in"] === null) {
+        const buttonIn = document.getElementById('buttonIn');
+        buttonIn.removeAttribute("hidden");
+        console.log("Se cumple la primera");
 
         return;
     }
-    if (dateExist["salida"] != null) {
-        const buttonIn = document.getElementById('buttonIn');
-        buttonIn.removeAttribute("hidden");
+    if (dateExist["time_out"] === null) {
+        const buttonOut = document.getElementById('buttonOut');
+        buttonOut.removeAttribute("hidden");
+        console.log("Se cumple la segundda");
 
         return;
     }

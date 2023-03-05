@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const util = require('./UTILS/APIS');
 require('dotenv').config();
 
 const register = async (req, res) => {
@@ -7,13 +8,13 @@ const register = async (req, res) => {
 
     bcrypt.hash(password, 10, (err, hash) => {
         if (err) {
-            console.log("Can´t encrypt due to" + err);
+            console.log("Can't encrypt due to" + err);
 
             return;
         }
         req.getConnection((err, conn) => {
             if (err) {
-                console.log("Can´t connect to database due to" + err);
+                console.log("Can't connect to database due to" + err);
 
                 return;
             }
@@ -21,7 +22,7 @@ const register = async (req, res) => {
             conn.query(sql, [user, hash], (err, rows) => {
                 if (err) {
                     console.log(sql)
-                    console.log("Can´t insert the user due to: " + err)
+                    console.log("Can't insert the user due to: " + err)
                     res.render('register', { errorMessage: 'Something went wrong' })
                 } else {
                     console.log("Update succesful");
@@ -63,7 +64,7 @@ const getHomePage = (req, res) => {
                         return res.render('login', { title: 'Inicio de sesión', status: '' })
                     }
 
-                    generateToken(decoded, '1h').then(token => {
+                    util.generateToken({ decoded }, '1h').then(token => {
                         console.log("The client have a token!")
                         res.cookie('token', token, {
                             httpOnly: true,
@@ -114,14 +115,15 @@ const login = async (req, res) => {
 
                     return;
                 }
-                generateToken(data[0], '1h').then(token => {
+                const userData = data[0];
+                util.generateToken({ userData }, '1h').then(token => {
 
                     res.cookie('token', token, {
                         httpOnly: true,
                         maxAge: 3600000 // 1 hour
                     }).redirect('/users');
                 }).catch(err => {
-                    console.log("Can't generate token due to: " + err);
+                    console.log("Can't generate token in login due to: " + err);
                 })
             });
         });
@@ -129,16 +131,7 @@ const login = async (req, res) => {
 
 }
 
-const generateToken = async (data, duration) => {
-    const payload = {
-        id: data.id,
-        name: data.name,
-        password: data.password,
-        rol: data.rol
-    }
 
-    return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: duration });
-}
 module.exports = {
     register: register,
     login: login,
