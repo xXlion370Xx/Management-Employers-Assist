@@ -69,6 +69,7 @@ const getHomePage = (req, res) => {
                             httpOnly: true,
                             maxAge: 3600000 // 1 hour
                         }).render('home', {
+                            title: token.name,
                             user: token.name,
                             rol: token.rol
                         });
@@ -120,11 +121,12 @@ const login = async (req, res) => {
                         httpOnly: true,
                         maxAge: 3600000 // 1 hour
                     }).render('home', {
+                        title: data[0].user,
                         user: data[0].user,
                         rol: data[0].rol
                     });
                 }).catch(err => {
-                    console.log("Can´t generate token due to: " + err);
+                    console.log("Can't generate token due to: " + err);
                 })
             });
         });
