@@ -11,7 +11,7 @@ const logOut = (req, res) => {
         conn.query(sql, [token], (err, rows) => {
             if (err) {
                 console.log(sql)
-                console.log("Can´t insert the black list token due to: " + err)
+                console.log("Can't insert the black list token due to: " + err)
                 res.redirect('/', { errorMessage: 'Something went wrong' });
 
                 return;

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const currentLocalTime = require('./api');
 const { query } = require('express');
+const generatorTokens = require('./util/generatorTokens');
 
 const getUserAsist = (req, res) => {
     const token = req.cookies.token;
@@ -9,7 +10,7 @@ const getUserAsist = (req, res) => {
         console.log("Don't provide an authentication token!");
         return res.status(401).send({ message: `Don't provide an authentication token!` });
     }
-
+    console.log(token);
     const decodedToken = jwt.decode(token);
     console.log("Token decoded info");
     console.log(decodedToken);
@@ -33,7 +34,7 @@ const getUserAsist = (req, res) => {
             if (data.length === 0) {
                 const objResponse =
                     [{
-                        id: null,
+                        id_asist: null,
                         id_user: null,
                         time_in: null,
                         time_out: null,
@@ -43,27 +44,41 @@ const getUserAsist = (req, res) => {
 
                 return;
             }
+            const lastItemData = data[data.length - 1];
 
-            res.send(data);
+            generatorTokens.generateTokenAsist(lastItemData, '1h').then(tokenAsist => {
+                res.cookie('tokenAsist', tokenAsist, {
+                    httpOnly: true,
+                    maxAge: 3600000, // 1 hour
+                }).send(data);
+            })
+
         });
     });
 }
 
 const insertDate = (req, res) => {
-    const token = req.cookies.token;
+    const tokenUser = req.cookies.token;
+    const tokenAsist = req.cookies.tokenAsist;
     const { entry, exit } = req.body;
-    console.log(entry);
-    console.log(exit);
 
-    if (!token) {
-        return res.status(401).send({ message: "Don't provide an authentication token!" });
+    if (!tokenUser) {
+        return res.status(401).send({ message: "Don't provide an authentication tokenUser!" });
+    }
+    if (!tokenAsist) {
+        return res.status(401).send({ message: "Don't provide an authentication tokenAsist!" });
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log("Token asist?");
-        console.log(decoded);
-        const idUser = decoded.id;
+        const decodedTokenUser = jwt.verify(tokenUser, process.env.JWT_SECRET);
+        console.log("Decoded token user info: ");
+        console.log(decodedTokenUser);
+        const idUser = decodedTokenUser.id;
+
+        const decodedTokenAsit = jwt.verify(tokenAsist, process.env.JWT_SECRET);
+        console.log("Decoded token asist info: ");
+        console.log(decodedTokenAsit);
+        const tokenAsistId = decodedTokenAsit.id_asist;
 
         currentLocalTime.getCurrentLocalTime().then(response => {
             const timeNow = response.time;
@@ -76,7 +91,7 @@ const insertDate = (req, res) => {
                     updateEntry(conn, res, idUser, timeNow, dateNow);
                 }
                 if (exit) {
-                    updateExit(conn, res, idUser, timeNow);
+                    updateExit(conn, res, tokenAsistId, timeNow);
                 }
             });
         }).catch(err => {
@@ -105,13 +120,14 @@ const updateEntry = (conn, res, idUser, timeNow, dateNow) => {
 
             return;
         }
+
         res.send("Oops, something went wrong!")
     })
 }
 
-const updateExit = (conn, res, idUser, timeNow) => {
-    const sql = "UPDATE asist SET time_out = ? WHERE id_user = ?";
-    conn.query(sql, [timeNow, idUser], (err, data) => {
+const updateExit = (conn, res, idAsist, timeNow) => {
+    const sql = "UPDATE asist SET time_out = ? WHERE id_asist = ?";
+    conn.query(sql, [timeNow, idAsist], (err, data) => {
         if (err) {
             console.log("query error");
             console.log(err);
@@ -122,6 +138,7 @@ const updateExit = (conn, res, idUser, timeNow) => {
             res.redirect("/");
             return;
         }
+
 
         res.send("Oops, something went wrong!");
     })

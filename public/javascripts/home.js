@@ -14,7 +14,8 @@ getUserAsist(url)
     })
     .catch(err => {
         console.log("Error in the query fetch");
-        console.log("Err: " + err);
+        console.log("Err: ");
+        console.log(err);
     });
 
 function handleButtonsAssist(dateExist) {
