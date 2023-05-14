@@ -3,7 +3,7 @@ const logOut = (req, res) => {
 
     req.getConnection((err, conn) => {
         if (err) {
-            console.log("Can´t connect to database due to" + err);
+            console.log("Can't connect to database due to" + err);
 
             return;
         }
@@ -24,6 +24,12 @@ const logOut = (req, res) => {
     res.redirect('/');
 }
 
+const restorePassword = (req, res) => {
+    res.send("Esta funcionalidad está deshabilitada.")
+
+}
+
 module.exports = {
-    logOut: logOut
+    logOut: logOut,
+    restorePassword: restorePassword
 }

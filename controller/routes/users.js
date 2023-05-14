@@ -8,4 +8,6 @@ router.post('/asist', managementAsist.insertDate);
 
 router.get('/logout', managementUser.logOut);
 
+router.get('/restore', managementUser.restorePassword);
+
 module.exports = router;

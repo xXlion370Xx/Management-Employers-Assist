@@ -54,9 +54,10 @@ const getHomePage = (req, res) => {
         conn.query(sql, [token], (err, rows) => {
             if (err) {
                 console.log("Can't query the black list token due to: " + err);
+                console.log(err);
                 return;
             }
-
+            console.log(rows);
             if (rows.length == 0) {
 
                 jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
@@ -86,7 +87,8 @@ const getHomePage = (req, res) => {
                 });
                 return;
             }
-            res.render('login', { title: 'Login', errorMessage: 'Inicia sesion primero' });
+            console.log("Token in black listed tokens!");
+            res.render('login', { title: 'Login', errorMessage: 'Debes iniciar sesion primero' });
         })
     })
 
@@ -122,7 +124,7 @@ const login = async (req, res) => {
                     return;
                 }
                 if (!same) {
-                    res.render('login', { title: 'Inicio de Sesión', errorMessage: 'Contraseña incorrecta' });
+                    res.render('login', { title: 'Inicio de Sesión', errorMessage: 'Contraseña incorrecta', restorePwdMessage: '¿Olvidaste tu contraseña?', userRestore: user });
 
                     return;
                 }
@@ -148,6 +150,7 @@ const login = async (req, res) => {
 
 }
 
+// Returns a string depending of the user rol passed in parameters
 const userView = (userRol) => {
     const views = {
         "admin": "admin",
