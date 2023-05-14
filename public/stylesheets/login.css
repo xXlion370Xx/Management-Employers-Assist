@@ -45,3 +45,10 @@ form {
   border-radius: 5px;
   padding: 2px;
 }
+
+.error-restore-password {
+  color: #fff;
+  background-color: #7353b1;
+  border-radius: 5px;
+  padding: 2px;
+}

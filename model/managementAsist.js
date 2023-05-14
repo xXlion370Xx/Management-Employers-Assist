@@ -1,69 +1,58 @@
 const jwt = require('jsonwebtoken');
 const util = require('./UTILS/APIS');
 const { query } = require('express');
-require('dotenv').config();
+const generatorTokens = require('./util/generatorTokens');
 
-const dateExist = (req, res) => {
+const getUserAsist = (req, res) => {
     const token = req.cookies.token;
 
     if (!token) {
-        return res.status(401).send({ message: "Don't provide an authentication token!" });
+        console.log("Don't provide an authentication token!");
+        return res.status(401).send({ message: `Don't provide an authentication token!` });
     }
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+    console.log(token);
+    const decodedToken = jwt.decode(token);
+    console.log("Token decoded info");
+    console.log(decodedToken);
+    console.log(decodedToken.id);
+    req.getConnection((err, conn) => {
         if (err) {
-            res.send("Error verify token");
-            return;
+            console.log("Error in get connection");
+            console.log(err);
         }
-        const idUser = decodedToken.userData.id;
-        console.log(decodedToken);
-        console.log("Este es el id del usuario: " + idUser);
 
-        req.getConnection((err, conn) => {
+        const sql = "SELECT * FROM asist WHERE id_user = ?";
+        conn.query(sql, [decodedToken.id], (err, data) => {
             if (err) {
-                console.log("Error in get connection");
+                console.log("Query error");
                 console.log(err);
+
+                return;
             }
 
-            const sql = "SELECT * FROM asist WHERE id_user = ? LIMIT 50";
-            conn.query(sql, [idUser], (err, data) => {
-                if (err) {
-                    console.log("Query error");
-                    console.log(err);
-
-                    return;
-                }
-                if (data.length === 0) {
-                    const asistData =
-                    {
+            //if data is null, response with null res
+            if (data.length === 0) {
+                const objResponse =
+                    [{
                         id_asist: null,
                         id_user: null,
                         time_in: null,
                         time_out: null,
                         date: null
-                    }
+                    }]
+                res.json(objResponse);
 
-                    util.generateToken({ asistData }, '1h').then(tokenAsist => {
-                        res.cookie('tokenAsist', tokenAsist, {
-                            httpOnly: true,
-                            maxAge: 3600000 // 1 hour
-                        }).json(asistData);
-                    });
+                return;
+            }
+            const lastItemData = data[data.length - 1];
 
-                    return;
-                }
+            generatorTokens.generateTokenAsist(lastItemData, '1h').then(tokenAsist => {
+                res.cookie('tokenAsist', tokenAsist, {
+                    httpOnly: true,
+                    maxAge: 3600000, // 1 hour
+                }).send(data);
+            })
 
-                const asistData = getLastItem(data);
-                console.log("Este es el last");
-                console.log(asistData);
-                util.generateToken({ asistData }, '1h').then(tokenAsist => {
-                    res.cookie('asistData', tokenAsist, {
-                        httpOnly: true,
-                        maxAge: 3600000 // 1 hour
-                    }).send(asistData);
-                });
-
-            });
         });
     });
 
@@ -73,68 +62,41 @@ const dateExist = (req, res) => {
 const getLastItem = (rows) => rows[rows.length - 1];
 
 const insertDate = (req, res) => {
-    const token = req.cookies.token;
-    const tokenAsist = req.cookies.asistData;
-    const timeType = req.body.timeType;
+    const tokenUser = req.cookies.token;
+    const tokenAsist = req.cookies.tokenAsist;
+    const { entry, exit } = req.body;
 
-    if (!token && !tokenAsist) {
-        return res.status(401).send({ message: 'No se proporcionó un token de autenticación.' });
+    if (!tokenUser) {
+        return res.status(401).send({ message: "Don't provide an authentication tokenUser!" });
+    }
+    if (!tokenAsist) {
+        return res.status(401).send({ message: "Don't provide an authentication tokenAsist!" });
     }
 
     try {
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-        const decodedTokenAsist = jwt.verify(tokenAsist, process.env.JWT_SECRET);
-        const idUser = decodedToken.userData.id;
-        const idAsist = decodedTokenAsist.asistData.id_asist;
+        const decodedTokenUser = jwt.verify(tokenUser, process.env.JWT_SECRET);
+        console.log("Decoded token user info: ");
+        console.log(decodedTokenUser);
+        const idUser = decodedTokenUser.id;
 
-        console.log("Este es el id asis" + idAsist);
-        util.getCurrentLocalTime().then(response => {
+        const decodedTokenAsit = jwt.verify(tokenAsist, process.env.JWT_SECRET);
+        console.log("Decoded token asist info: ");
+        console.log(decodedTokenAsit);
+        const tokenAsistId = decodedTokenAsit.id_asist;
+
+        currentLocalTime.getCurrentLocalTime().then(response => {
             const timeNow = response.time;
             const dateNow = response.date;
 
             req.getConnection((err, conn) => {
                 if (err) throw err;
 
-                let sql = "";
-                if (timeType == "time_in") {
-                    sql = "INSERT INTO asist (id_user, time_in, date) VALUES (?,?,?)";
-                    conn.query(sql, [idUser, timeNow, dateNow], (err, data) => {
-                        if (err) {
-                            console.log("query error");
-                            console.log(err);
-
-                            return;
-                        }
-
-                        if (data.length != 0) {
-                            res.redirect('/users/');
-
-                            return;
-                        }
-
-                        res.send("Something went wrong");
-                    })
-                } else {
-                    sql = "UPDATE asist SET time_out = ?, date = ? WHERE id_user = ? AND id_asist = ?";
-                    conn.query(sql, [timeNow, dateNow, idUser, idAsist], (err, data) => {
-                        if (err) {
-                            console.log("query error");
-                            console.log(err);
-
-                            return;
-                        }
-
-                        if (data.length != 0) {
-                            res.redirect('/users/');
-
-                            return;
-                        }
-
-                        res.send("Something went wrong");
-                    })
+                if (entry) {
+                    updateEntry(conn, res, idUser, timeNow, dateNow);
                 }
-
-
+                if (exit) {
+                    updateExit(conn, res, tokenAsistId, timeNow);
+                }
             });
         }).catch(err => {
             res.send(err);
@@ -147,7 +109,45 @@ const insertDate = (req, res) => {
         console.log(err);
     }
 }
+
+const updateEntry = (conn, res, idUser, timeNow, dateNow) => {
+    const sql = "INSERT INTO asist (id_user, time_in, date) VALUES (?,?,?)";
+    conn.query(sql, [idUser, timeNow, dateNow], (err, data) => {
+        if (err) {
+            console.log("query error");
+            console.log(err);
+
+            return;
+        }
+        if (data.length != 0) {
+            res.redirect("/");
+
+            return;
+        }
+
+        res.send("Oops, something went wrong!")
+    })
+}
+
+const updateExit = (conn, res, idAsist, timeNow) => {
+    const sql = "UPDATE asist SET time_out = ? WHERE id_asist = ?";
+    conn.query(sql, [timeNow, idAsist], (err, data) => {
+        if (err) {
+            console.log("query error");
+            console.log(err);
+
+            return false;
+        }
+        if (data.length != 0) {
+            res.redirect("/");
+            return;
+        }
+
+
+        res.send("Oops, something went wrong!");
+    })
+}
 module.exports = {
-    dateExist: dateExist,
+    getUserAsist: getUserAsist,
     insertDate: insertDate
 }

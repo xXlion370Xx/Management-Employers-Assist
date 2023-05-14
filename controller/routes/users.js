@@ -3,15 +3,11 @@ const router = express.Router();
 const managementAsist = require('../../model/managementAsist');
 const managementUser = require('../../model/managementUser');
 
-router.get('/', (req, res) => {
-    res.render('home', {
-        user: "si",
-        rol: "ss"
-    });
-})
-router.get('/asist', managementAsist.dateExist);
+router.get('/asist', managementAsist.getUserAsist);
 router.post('/asist', managementAsist.insertDate);
 
 router.get('/logout', managementUser.logOut);
+
+router.get('/restore', managementUser.restorePassword);
 
 module.exports = router;
