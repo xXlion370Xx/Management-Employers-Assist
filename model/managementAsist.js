@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
-const util = require('./UTILS/APIS');
 const { query } = require('express');
-const generatorTokens = require('./util/generatorTokens');
+const generatorTokens = require('./UTILS/generatorTokens');
+const currentLocalTime = require('./UTILS/APIS');
 
 const getUserAsist = (req, res) => {
     const token = req.cookies.token;
@@ -46,7 +46,7 @@ const getUserAsist = (req, res) => {
             }
             const lastItemData = data[data.length - 1];
 
-            generatorTokens.generateTokenAsist(lastItemData, '1h').then(tokenAsist => {
+            generatorTokens.generateToken('1h', lastItemData).then(tokenAsist => {
                 res.cookie('tokenAsist', tokenAsist, {
                     httpOnly: true,
                     maxAge: 3600000, // 1 hour
@@ -59,7 +59,6 @@ const getUserAsist = (req, res) => {
 
 }
 
-const getLastItem = (rows) => rows[rows.length - 1];
 
 const insertDate = (req, res) => {
     const tokenUser = req.cookies.token;

@@ -10,15 +10,6 @@ const getCurrentLocalTime = async () => {
     }
 }
 
-const generateToken = async (payload = {}, duration) => {
-    try {
-        return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: duration });
-    } catch (error) {
-        console.log("Can't generate token in generateToken due to: " + error);
-    }
-
-}
 module.exports = {
     getCurrentLocalTime: getCurrentLocalTime,
-    generateToken: generateToken
 }

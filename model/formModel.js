@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const generatorToken = require('./util/generatorTokens');
+const generatorTokens = require('./UTILS/generatorTokens');
 require('dotenv').config();
 
 const register = async (req, res) => {
@@ -35,13 +35,14 @@ const register = async (req, res) => {
 }
 
 const getHomePage = (req, res) => {
-    const token = req.cookies.token;
+    const tokenUser = req.cookies.token;
 
-    if (!token) {
+    if (!tokenUser) {
         console.log("The client doesn't have a token");
 
         return res.render('login', { title: 'Inicio de sesión', status: '' });
     }
+    console.log("The client have a token!");
 
     // Check if the token is in the black list tonkens database
     req.getConnection((err, conn) => {
@@ -51,7 +52,7 @@ const getHomePage = (req, res) => {
         }
 
         const sql = "SELECT * FROM blacklisted_tokens WHERE token = ?";
-        conn.query(sql, [token], (err, rows) => {
+        conn.query(sql, [tokenUser], (err, rows) => {
             if (err) {
                 console.log("Can't query the black list token due to: " + err);
                 console.log(err);
@@ -60,27 +61,28 @@ const getHomePage = (req, res) => {
             console.log(rows);
             if (rows.length == 0) {
 
-                jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+                jwt.verify(tokenUser, process.env.JWT_SECRET, (err, decodedTokenUser) => {
                     if (err) {
                         console.log("An error ocurred while verifying the token!");
                         return res.render('login', { title: 'Inicio de sesión', errorMessage: '' })
                     }
 
                     console.log("Decoded token info: ");
-                    console.log(decoded);
+                    console.log(decodedTokenUser);
 
-                    generatorToken.generateTokenUser(decoded, '1h').then(token => {
-                        console.log("The client have a token!");
-                        const view = userView(decoded["rol"]);
+                    generatorTokens.generateToken('1h', decodedTokenUser).then(tokenUser => {
+                        console.log("token generated: " + tokenUser);
+
+                        const view = userView(decodedTokenUser["rol"]);
                         console.log("This is the view that will be send " + view);
 
-                        res.cookie('token', token, {
+                        res.cookie('token', tokenUser, {
                             httpOnly: true,
                             maxAge: 3600000 // 1 hour
                         }).render(view, {
-                            title: token.name,
-                            user: token.name,
-                            rol: token.rol
+                            title: tokenUser["name"],
+                            user: tokenUser["name"],
+                            rol: tokenUser["rol"]
                         });
                     })
 
@@ -115,8 +117,6 @@ const login = async (req, res) => {
                 return;
             }
 
-
-
             bcrypt.compare(password, data[0].password, (err, same) => {
                 if (err) {
                     console.log("Something went wrong to compare the password with the hash due to: " + err);
@@ -128,10 +128,12 @@ const login = async (req, res) => {
 
                     return;
                 }
-                generatorToken.generateTokenUser(data[0], '1h').then(token => {
+
+                generatorTokens.generateToken('1h', data[0]).then(token => {
 
                     const view = userView(data[0].rol);
                     console.log("This is the view that will be send " + view);
+
                     res.cookie('token', token, {
                         httpOnly: true,
                         maxAge: 3600000 // 1 hour
