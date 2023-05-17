@@ -9,6 +9,10 @@ router.get('/login', (req, res) => {
   res.redirect('/');
 })
 
+router.get('/adminWorker', (req, res) => {
+  res.render('adminWorker');
+});
+
 router.get('/register', (req, res) => {
   res.render('register');
 });
