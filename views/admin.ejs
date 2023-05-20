@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%- include('templates/bootstrap.ejs') %>
-    <script defer src="/javascripts/home.js"></script>
+    <script defer src="/javascripts/admin.js"></script>
     <script src="https://kit.fontawesome.com/0364c5acb2.js" crossorigin="anonymous"></script>
 
 </head>
@@ -23,14 +23,14 @@
         </div> 
     </nav><BR>
 
-    <div class="container">
+    <div class="container" id="admin" style="display: block;">
         <div class="row">
             <div class="col-4">
                 <div class="card" style="width: 18rem;">
                     <img src="./..//images/empleados_img.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                     <h5 class="card-title">Empleados</h5>
-                    <a href="./adminWorker" class="btn btn-primary">Gestionar</a>
+                    <a href="#" class="btn btn-primary" onclick="getWorkers()">Gestionar</a>
                     </div>
                 </div>
             </div>
@@ -53,5 +53,10 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="container" id="workers" style="display: none;">
+        <button type="submit" onclick="back()">Atras</button>
+        <h1>Aqui se trae la info</h1>
     </div>
 </body>
