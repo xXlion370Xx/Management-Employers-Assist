@@ -80,9 +80,9 @@ const getHomePage = (req, res) => {
                             httpOnly: true,
                             maxAge: 3600000 // 1 hour
                         }).render(view, {
-                            title: tokenUser["name"],
-                            user: tokenUser["name"],
-                            rol: tokenUser["rol"]
+                            title: decodedTokenUser["name"],
+                            user: decodedTokenUser["name"],
+                            rol: decodedTokenUser["rol"]
                         });
                     })
 
