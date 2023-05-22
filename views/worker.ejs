@@ -8,8 +8,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Styles for data tables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     <%- include('templates/bootstrap.ejs') %>
-        <script defer src="/javascripts/home.js"></script>
 </head>
 
 <body>
@@ -26,24 +27,34 @@
         <button hidden id="buttonOut" name="exit" value="entry" class="button">Salida</button>
     </form>
     <a href="/users/logout">Cerrar sesion</a>
-    <table id="table" class="table">
+
+    <table data-order='[[0, "desc"]]' id="tableAsist" class="table table-striped" style="width:100%">
         <thead>
             <tr>
-                <th scope="col"></th>
+                <th scope="col">#</th>
                 <th scope="col">Entrada</th>
                 <th scope="col">Salida</th>
                 <th scope="col">Fecha</th>
             </tr>
         </thead>
         <tbody id="tbody" class="table-group-divider">
-            <tr>
-                <th scope="row">*</th>
-                <td>exmple</td>
-                <td>example</td>
-                <td>example</td>
-            </tr>
 
         </tbody>
+        <tfoot>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Entrada</th>
+                <th scope="col">Salida</th>
+                <th scope="col">Fecha</th>
+            </tr>
+        </tfoot>
     </table>
+
+    <!-- At first we have to call de jquert library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Then call de CDN data table library -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <!-- Finish, add the script that filter and add the features to data table -->
+    <script src="/javascripts/featuresWorker.js"></script>
 
 </html>
