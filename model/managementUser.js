@@ -12,7 +12,7 @@ const logOut = (req, res) => {
             if (err) {
                 console.log(sql)
                 console.log("Can't insert the black list token due to: " + err)
-                res.redirect('/', { errorMessage: 'Something went wrong' });
+                res.clearCookie('token').redirect('/', { errorMessage: 'Something went wrong' });
 
                 return;
             }
@@ -20,8 +20,7 @@ const logOut = (req, res) => {
         })
     })
 
-    res.clearCookie('token');
-    res.redirect('/');
+    res.clearCookie('token').redirect('/');
 }
 
 const restorePassword = (req, res) => {

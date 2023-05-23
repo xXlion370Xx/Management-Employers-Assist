@@ -82,7 +82,12 @@ const getHomePage = (req, res) => {
                         }).render(view, {
                             title: decodedTokenUser["name"],
                             user: decodedTokenUser["name"],
-                            rol: decodedTokenUser["rol"]
+                            rol: decodedTokenUser["rol"],
+                            message: "No se encontro un rol en el sistema.",
+                            error: {
+                                status: "noRol",
+                                message: "Contacte con el administrador para asignarle un rol."
+                            }
                         });
                     })
 
@@ -140,7 +145,12 @@ const login = async (req, res) => {
                     }).render(view, {
                         title: data[0].user,
                         user: data[0].user,
-                        rol: data[0].rol
+                        rol: data[0].rol,
+                        message: "No se encontro un rol en el sistema.",
+                        error: {
+                            status: "noRol",
+                            message: "Contacte con el administrador para asignarle un rol."
+                        }
                     });
 
                 }).catch(err => {
@@ -159,7 +169,7 @@ const userView = (userRol) => {
         "worker": "worker"
     }
 
-    return views[userRol] || "rolNotFound";
+    return views[userRol] || "error";
 }
 
 module.exports = {

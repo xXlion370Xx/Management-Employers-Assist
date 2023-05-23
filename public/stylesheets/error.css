@@ -7,3 +7,16 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+#back {
+    width: 100px;
+    height: 70px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    background-color: #fff;
+    color: #222;
+    text-decoration: none;
+}

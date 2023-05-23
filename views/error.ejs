@@ -17,9 +17,22 @@
         <%= message %>
     </h1>
     <h2>
-        <%= error.status %>
+        <%= error.message %>
     </h2>
-    <img src="images/error-robot.png" alt="Robot error image">
+    <% if ( error.status=='noRol' ) { %>
+        <p id="status" value="noRol" value="noRol" style="display: none;">
+            No rol
+        </p>
+        <% } %>
+
+
+            <img src="images/error-robot.png" alt="Robot error image">
+            <% if (typeof error.status !=='undefined' ) { %>
+                <a href="/" id="back">
+                    <p>Volver</p>
+                </a>
+                <% } %>
 </body>
+<script src="javascripts/logout.js"></script>
 
 </html>
