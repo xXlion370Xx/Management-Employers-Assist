@@ -9,9 +9,10 @@
     <%- include('templates/bootstrap.ejs') %>
     <script  src="/javascripts/admin.js"></script>
     <link rel='stylesheet' href='/stylesheets/admin.css' />
-
     <script src="https://kit.fontawesome.com/0364c5acb2.js" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>  
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+
 
 
 </head>
@@ -32,7 +33,7 @@
         <div class="col-12 m-2 d-flex justify-content-center">
             <a  class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#modalInsert"><i class="fa-solid fa-circle-plus"></i></a>
         </div>
-        <table class="table table-hover m-4">
+        <table class="table table-hover m-4" id="workers">
             <thead class="table-primary">
             <tr>
                 <th>Id</th>
@@ -90,5 +91,38 @@
           </div>
         </div>
     </div>
+
+     <!-- Data Tables -->
+     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+     <script>
+         //DataTables
+           $(document).ready(function () {
+             $('#workers').DataTable({
+               pageLength: 5,
+               lengthMenu: [[5,10,20,-1], [5,10,20,'Todos']],
+               language: {
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "No encontrado",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "No hay información",
+                    infoFiltered: "(filtrado de _MAX_ total registros)",
+                    search: "Buscar:",
+                    paginate: {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                    
+                }
+             });
+           
+           });
+       </script>
 </body>
 </html>
+
+    
+   
