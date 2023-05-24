@@ -7,7 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%- include('templates/bootstrap.ejs') %>
+    <script  src="/javascripts/admin.js"></script>
+    <link rel='stylesheet' href='/stylesheets/admin.css' />
+
     <script src="https://kit.fontawesome.com/0364c5acb2.js" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>  
+
 
 </head>
 <body>
@@ -21,13 +26,14 @@
     </div> 
 </nav><BR>
 
-    <div class="col-2 m-2">
-        <a  class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#modalInsert"><i class="fa-solid fa-circle-plus"></i></a>
-    </div>
-
+   
+<div class="container d-flex justify-content-center">
     <div class="col-8">
+        <div class="col-12 m-2 d-flex justify-content-center">
+            <a  class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#modalInsert"><i class="fa-solid fa-circle-plus"></i></a>
+        </div>
         <table class="table table-hover m-4">
-            <thead class="table-success">
+            <thead class="table-primary">
             <tr>
                 <th>Id</th>
                 <th>Usuario</th>
@@ -44,18 +50,19 @@
                 <td><%= element.id %></td>
                 <td><%= element.name %></td>
                 <td><%= element.rol %></td>
-                <td><%= element.status %></td>
+                <td class="<%= element.status %>"><%= element.status %></td>
                 
                 <td>
-                    <a href="" class="btn btn-outline-success" ><i class="fa-solid fa-pen"></i></a>
-                    <a class="btn btn-outline-danger"><i class="fa-solid fa-circle-minus"></i></a>
+                    <a href="/admin/getDataWorkers/<%= element.id %>" class="btn btn-primary" ><i class="fa-solid fa-eye"></i></a>
+                    <a href="" class="btn btn-success" ><i class="fa-solid fa-pen"></i></a>
+                    <a onclick="confirmAcction(<%= element.id %>, '<%= element.status %>')" class="btn btn-danger"><i class="fa-solid fa-circle-minus"></i></a>
                 </td>
             <%})%>
             </tr>
             </tbody>  
         </table>
     </div>
-
+</div>
      <!-- Modal -->
     <div class="modal fade" id="modalInsert" tabindex="-1" aria-labelledby="modalInsertLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -71,7 +78,7 @@
                           <label for="floatingInput">Usuario</label>
                       </div>
                       <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="password" name="password" value="123" readonly>
+                        <input  type="text"  class="form-control" id="password" name="password" value="123" readonly>
                         <label for="floatingInput">Contraseña</label>
                         <small><i>Esta constraseña sera la predeterminada*</i></small>
                     </div>

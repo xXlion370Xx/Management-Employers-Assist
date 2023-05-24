@@ -43,18 +43,96 @@ const insertWorker = (req, res) => {
                 if (err) {
                     console.log(sql);
                     console.log("Can't insert the user due to: " + err);
-                    res.redirect('/admin?messageError=Something went wrong');
+                    res.redirect('/admin');
                 } else {
                     console.log("Insertion successful");
-                    res.redirect('/admin?message=ok');
+                    res.redirect('/admin');
                 }
             });
         });
     });
 };
 
+const inactiveWorker = (req, res) =>{
+    const id = req.params.id;
+    const status = req.params.status;
+
+    if (status == 'Active') {
+        req.getConnection((err, conn) => {
+            if (err) {
+                console.log("Error in get connection");
+                console.log(err);
+            }
+        
+            const sql = "UPDATE users SET status = 'Inactive' WHERE id = ?";
+            conn.query(sql, [id], (err, data) => {
+                if (err) {
+                    console.log("Query error");
+                    console.log(err);
+                }else{
+                    console.log('Registro Incativo');
+
+                    res.redirect('/admin');
+                }
+        
+            });
+        });
+    }else{
+        req.getConnection((err, conn) => {
+            if (err) {
+                console.log("Error in get connection");
+                console.log(err);
+            }
+        
+            const sql = "UPDATE users SET status = 'Active' WHERE id = ?";
+            conn.query(sql, [id], (err, data) => {
+                if (err) {
+                    console.log("Query error");
+                    console.log(err);
+                }else{
+                    console.log('Registro Activado');
+
+                    res.redirect('/admin');
+                }
+        
+            });
+        });
+    }
+}
+
+const getDataWorkers = (req, res) =>{
+
+    const id = req.params.id;
+    req.getConnection((err, conn) => {
+        if (err) {
+            console.log("Error in get connection");
+            console.log(err);
+        }
+    
+        const sql =`SELECT a.id_asist as Id, b.name as Nombre, a.time_in as Ingreso, a.time_out as Salida, a.date as Fecha
+        FROM asist a 
+        JOIN users b ON a.id_user = b.id
+        WHERE b.id = ?` ;
+        conn.query(sql, [id], (err, data) => {
+            if (err) {
+                console.log("Query error");
+                console.log(err);
+            }else{
+                console.log('Consulta Exitosa');
+                console.log(data);
+
+                res.render('workersData' , {workerData:data});
+            }
+    
+        });
+    });
+
+}
+
 module.exports = {
     getAdminList: getAdminList,
-    insertWorker: insertWorker
+    insertWorker: insertWorker,
+    inactiveWorker: inactiveWorker,
+    getDataWorkers: getDataWorkers
 
 }
