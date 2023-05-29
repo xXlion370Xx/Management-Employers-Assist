@@ -1,3 +1,38 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheets/error.css">
+    <link rel="stylesheet" href="stylesheets/general.css">
+    <!-- google fonts -->
+    <% include('templates/googleFonts')%>
+        <title>Error</title>
+</head>
+
+<body>
+    <h1>
+        <%= message %>
+    </h1>
+    <h2>
+        <%= error.message %>
+    </h2>
+    <% if ( error.status=='noRol' ) { %>
+        <p id="status" value="noRol" value="noRol" style="display: none;">
+            No rol
+        </p>
+        <% } %>
+
+
+            <img src="images/error-robot.png" alt="Robot error image">
+            <% if (typeof error.status !=='undefined' ) { %>
+                <a href="/" id="back">
+                    <p>Volver</p>
+                </a>
+                <% } %>
+</body>
+<script src="javascripts/logout.js"></script>
+
+</html>

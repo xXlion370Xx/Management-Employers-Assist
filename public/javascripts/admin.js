@@ -2,7 +2,7 @@ function confirmAcction(id, status){
     if (status == 'Active') {
         Swal.fire({
             icon: 'warning',
-            title: 'Seguro que quieres Inctivar este registro '+ id +'?' ,
+            text: 'Seguro que quieres Inctivar este registro '+ id +'?' ,
             showCancelButton: true,
             confirmButtonText: 'Confirmar',
           }).then((result) => {
@@ -13,7 +13,7 @@ function confirmAcction(id, status){
     }else{
         Swal.fire({
             icon: 'warning',
-            title: 'Seguro que quieres Activar este registro '+ id +'?' ,
+            text: 'Seguro que quieres Activar este registro '+ id +'?' ,
             showCancelButton: true,
             confirmButtonText: 'Confirmar',
           }).then((result) => {
