@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Pagina Administrador - Trabajadores</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('templates/bootstrap.ejs') %>
+    <script  src="/javascripts/admin.js"></script>
+    <link rel='stylesheet' href='/stylesheets/admin.css' />
+
+    <script src="https://kit.fontawesome.com/0364c5acb2.js" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>  
+
+
+</head>
+
+<nav class="navbar bg-body-tertiary bg-dark " data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <h2>Gestionar Empleados</h2>
+        </a>
+        <a href="/admin/" style="float: right;">Atras
+        <i class="fa-solid fa-power-off" style="color: #ffffff;"></i></a>
+    </div> 
+</nav><br>
+
+<div class="container d-flex justify-content-center">
+    <div class="col-8">
+        <table class="table table-hover m-4">
+            <thead class="table-primary">
+            <tr>
+                <th>Id</th>
+                <th>Usuario</th>
+                <th>Ingreso</th>
+                <th>Salida</th>
+                <th>Fecha</th>
+        
+            </tr>
+            </thead>
+            <tbody>
+                    
+            <% workerData.forEach((element)=>{ %>
+                <tr>
+                <td><%= element.Id %></td>
+                <td><%= element.Nombre %></td>
+                <td><%= element.Ingreso %></td>
+                <td><%= element.Salida %></td>
+                <td><%= element.Fecha %></td>
+            <%})%>
+            </tr>
+            </tbody>  
+        </table>
+    </div>
+</div>

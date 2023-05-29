@@ -80,9 +80,9 @@ const getHomePage = (req, res) => {
                             httpOnly: true,
                             maxAge: 3600000 // 1 hour
                         }).render(view, {
-                            title: tokenUser["name"],
-                            user: tokenUser["name"],
-                            rol: tokenUser["rol"]
+                            title: "Hola",
+                            user: decodedTokenUser["name"],
+                            rol: decodedTokenUser["rol"]
                         });
                     })
 
@@ -107,7 +107,8 @@ const login = async (req, res) => {
         console.log("Connection satisfactory!");
         const sql = "SELECT * FROM users WHERE name = ?";
         conn.query(sql, [user], (err, data) => {
-            console.log("Quering the user in the database");
+            console.log(data);
+             console.log("Quering the user in the database");
             if (err) throw err;
 
             if (data.length === 0) {
@@ -138,8 +139,8 @@ const login = async (req, res) => {
                         httpOnly: true,
                         maxAge: 3600000 // 1 hour
                     }).render(view, {
-                        title: data[0].user,
-                        user: data[0].user,
+                        title: data[0].name,
+                        user: data[0].name,
                         rol: data[0].rol
                     });
 
@@ -156,7 +157,8 @@ const login = async (req, res) => {
 const userView = (userRol) => {
     const views = {
         "admin": "admin",
-        "worker": "worker"
+        "worker": "worker",
+        "adminWorker": "adminWorker"
     }
 
     return views[userRol] || "rolNotFound";
