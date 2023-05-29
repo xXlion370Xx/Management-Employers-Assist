@@ -10,8 +10,11 @@ const getAdminList = (req, res) =>{
             console.log(err);
         }
     
-        const sql = "SELECT * FROM users WHERE rol= 'worker'";
-        conn.query(sql, (err, data) => {
+        const sql = "SELECT id, name,CASE WHEN rol = 'worker' THEN 'Trabajador' ELSE rol END AS rol, CASE \
+            WHEN status = 'Active' THEN 'Activo' WHEN status = 'Inactive' THEN 'Inactivo' \
+            ELSE status END AS status FROM (SELECT id, name, rol, status FROM users WHERE rol = 'worker') AS subquery";
+
+            conn.query(sql, (err, data) => {
             if (err) {
                 console.log("Query error");
                 console.log(err);
