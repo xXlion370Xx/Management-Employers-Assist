@@ -80,9 +80,14 @@ const getHomePage = (req, res) => {
                             httpOnly: true,
                             maxAge: 3600000 // 1 hour
                         }).render(view, {
-                            title: "Hola",
+                            title: decodedTokenUser["name"],
                             user: decodedTokenUser["name"],
-                            rol: decodedTokenUser["rol"]
+                            rol: decodedTokenUser["rol"],
+                            message: "No se encontro un rol en el sistema.",
+                            error: {
+                                status: "noRol",
+                                message: "Contacte con el administrador para asignarle un rol."
+                            }
                         });
                     })
 
@@ -108,7 +113,7 @@ const login = async (req, res) => {
         const sql = "SELECT * FROM users WHERE name = ?";
         conn.query(sql, [user], (err, data) => {
             console.log(data);
-             console.log("Quering the user in the database");
+            console.log("Quering the user in the database");
             if (err) throw err;
 
             if (data.length === 0) {
@@ -139,9 +144,14 @@ const login = async (req, res) => {
                         httpOnly: true,
                         maxAge: 3600000 // 1 hour
                     }).render(view, {
-                        title: data[0].name,
-                        user: data[0].name,
-                        rol: data[0].rol
+                        title: data[0].user,
+                        user: data[0].user,
+                        rol: data[0].rol,
+                        message: "No se encontro un rol en el sistema.",
+                        error: {
+                            status: "noRol",
+                            message: "Contacte con el administrador para asignarle un rol."
+                        }
                     });
 
                 }).catch(err => {
@@ -161,7 +171,7 @@ const userView = (userRol) => {
         "adminWorker": "adminWorker"
     }
 
-    return views[userRol] || "rolNotFound";
+    return views[userRol] || "error";
 }
 
 module.exports = {

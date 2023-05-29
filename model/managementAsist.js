@@ -103,7 +103,13 @@ const insertDate = (req, res) => {
 
 
     } catch (err) {
-        res.status(400).send("Token invalid");
+        res.status(400).render('error',
+            {
+                message: "Ha ocurrido un error, intente mas tarde",
+                error: {
+                    status: "404"
+                }
+            });
         console.log("Token invalid! due to :" + err);
         console.log(err);
     }
