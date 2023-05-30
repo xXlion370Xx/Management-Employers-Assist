@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const managementAdmin = require('../../model/managementAdmin');
 
+router.post('/updateWorker/:id/:usuario/:rol', managementAdmin.updateWorker);
+
 router.get('/', managementAdmin.getAdminList);
 router.post('/createWorker', managementAdmin.insertWorker);
 

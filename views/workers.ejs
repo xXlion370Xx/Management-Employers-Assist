@@ -62,7 +62,7 @@
                 
                 <td>
                     <a href="/admin/getDataWorkers/<%= element.id %>" title="Ver detalles" class="btn btn-primary" ><i class="fa-solid fa-eye"></i></a>
-                    <a href="" class="btn btn-success" title="Editar Usuario"  ><i class="fa-solid fa-pen"></i></a>
+                    <a  onclick="updateWorker(<%= element.id %>,'<%= element.name %>', '<%= element.rol %>' )" class="btn btn-success" title="Editar Usuario"  ><i class="fa-solid fa-pen"></i></a>
                     <a onclick="confirmAcction(<%= element.id %>, '<%= element.status %>')" title="Inhabilitar Usuario"  class="btn btn-danger"><i class="fa-solid fa-circle-minus"></i></a>
                 </td>
             <%})%>
