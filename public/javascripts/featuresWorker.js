@@ -8,7 +8,7 @@ const url = "http://localhost:3000/users/asist";
 getUserAssist(url)
     .then(data => {
         showUserAssist(data);
-        filterDataAssist("tableAsist");
+        filterDataAssist("tableAssist");
         handleButtonsAssist(data);
     })
     .catch(err => {
@@ -18,18 +18,25 @@ getUserAssist(url)
     });
 
 function handleButtonsAssist(dateExist) {
+    console.log(dateExist);
 
     const lastItemData = dateExist[dateExist.length - 1];
     const buttonDateRegister = document.getElementById('buttonRegisterDate');
     buttonDateRegister.innerText = "Entrada";
+    if (lastItemData["time_in"] != null && lastItemData["time_out"] != null) {
+        console.log("Show entry")
+        return;
+    }
 
-    //if entry exist show the button exit
+    //if entry exist, show the button exit
     if (lastItemData["time_in"] != null) {
         buttonDateRegister.setAttribute("name", "exit");
         buttonDateRegister.setAttribute("value", "exit");
         buttonDateRegister.innerText = "Salida";
         console.log("Show exit");
     }
+
+
 
 }
 
