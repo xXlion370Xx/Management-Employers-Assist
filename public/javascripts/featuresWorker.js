@@ -1,14 +1,14 @@
-async function getUserAsist(url) {
+async function getUserAssist(url) {
     const response = await fetch(url);
     return await response.json();
 }
 
 const url = "http://localhost:3000/users/asist";
 
-getUserAsist(url)
+getUserAssist(url)
     .then(data => {
-        showUserAsist(data);
-        filterDataAsist("tableAsist");
+        showUserAssist(data);
+        filterDataAssist("tableAsist");
         handleButtonsAssist(data);
     })
     .catch(err => {
@@ -18,31 +18,22 @@ getUserAsist(url)
     });
 
 function handleButtonsAssist(dateExist) {
+
     const lastItemData = dateExist[dateExist.length - 1];
-    console.log(lastItemData);
+    const buttonDateRegister = document.getElementById('buttonRegisterDate');
+    buttonDateRegister.innerText = "Entrada";
 
-    if (lastItemData["time_in"] != null && lastItemData["time_out"] != null) {
-        const buttonIn = document.getElementById('buttonIn');
-        console.log("show entry");
-        buttonIn.removeAttribute("hidden");
-        return;
-    }
-
+    //if entry exist show the button exit
     if (lastItemData["time_in"] != null) {
-        const buttonOut = document.getElementById('buttonOut');
-        buttonOut.removeAttribute("hidden");
+        buttonDateRegister.setAttribute("name", "exit");
+        buttonDateRegister.setAttribute("value", "exit");
+        buttonDateRegister.innerText = "Salida";
         console.log("Show exit");
-        return;
     }
-    if (lastItemData["time_out"] != null) {
-        const buttonIn = document.getElementById('buttonIn');
-        buttonIn.removeAttribute("hidden");
 
-        console.log("show entry");
-    }
 }
 
-const showUserAsist = (dataAsist) => {
+const showUserAssist = (dataAsist) => {
 
     const tbody = document.getElementById("tbody");
     const documentFragment = document.createDocumentFragment();
@@ -76,7 +67,7 @@ const showUserAsist = (dataAsist) => {
     tbody.appendChild(documentFragment);
 }
 
-function filterDataAsist(tableId) {
+function filterDataAssist(tableId) {
     $(document).ready(function () {
         $('#' + tableId).DataTable({
             language: {
@@ -95,5 +86,5 @@ function filterDataAsist(tableId) {
             searching: false,
         });
     });
-    $('#tableAsist').show();
+    $('#tableAssist').show();
 }

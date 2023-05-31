@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="stylesheet/general.css">
+    <link rel="stylesheet" href="stylesheets/general.css">
     <% include('templates/googleFonts')%>
         <!-- Styles for data tables -->
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
@@ -25,12 +25,11 @@
         <%= rol %>
     </h2>
     <form action="users/asist" method="post">
-        <button hidden id="buttonIn" name="entry" value="entry" class="button">Ingreso</button>
-        <button hidden id="buttonOut" name="exit" value="entry" class="button">Salida</button>
+        <button id="buttonRegisterDate" name="entry" value="entry" class="button"></button>
     </form>
     <a href="/users/logout">Cerrar sesion</a>
 
-    <table data-order='[[0, "desc"]]' id="tableAsist" class="table table-striped" style="width:100%">
+    <table data-order='[[0, "desc"]]' id="tableAssist" class="table table-striped" style="width:100%">
         <thead>
             <tr>
                 <th scope="col">#</th>
