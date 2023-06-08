@@ -81,7 +81,7 @@ const getHomePage = (req, res) => {
                                 httpOnly: true,
                                 maxAge: 3600000 // 1 hour
                             }).render(view, {
-                                title: decodedTokenUser["name"],
+                                title: "Registros " + decodedTokenUser["name"],
                                 user: decodedTokenUser["name"],
                                 rol: decodedTokenUser["rol"],
                                 message: "No se encontró un rol en el sistema.",
@@ -149,8 +149,8 @@ const login = async (req, res) => {
                         httpOnly: true,
                         maxAge: 3600000 // 1 hour
                     }).render(view, {
-                        title: data[0].user,
-                        user: data[0].user,
+                        title: "Registros" + data[0].name,
+                        user: data[0].name,
                         rol: data[0].rol,
                         message: "No se encontro un rol en el sistema.",
                         error: {

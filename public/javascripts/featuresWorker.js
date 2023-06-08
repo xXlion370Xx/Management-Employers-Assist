@@ -90,6 +90,7 @@ function filterDataAssist(tableId) {
                     "previous": "Anterior"
                 },
             },
+            lengthMenu: [5, 10, 25, 50, 75, 100],
             searching: false,
         });
     });
