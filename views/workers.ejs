@@ -35,42 +35,50 @@
 </nav><BR>
 
    
-<div class="container d-flex justify-content-center">
-    <div class="col-8">
-        <div class="col-12 m-2 d-flex justify-content-center">
-            <a  class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#modalInsert" title="Crear Usuario"><i class="fa-solid fa-circle-plus"></i></a>
-        </div>
-        <table class="table table-hover m-4" id="workers">
-            <thead class="table-primary">
-            <tr>
-                <th>Id</th>
-                <th>Usuario</th>
-                <th>Rol</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-        
-            </tr>
-            </thead>
-            <tbody>
-                    
-            <% worker.forEach((element)=>{ %>
+    <div class="container d-flex justify-content-center">
+        <div class="col-8">
+          <div class="col-12 m-2 d-flex justify-content-center">
+            <a class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#modalInsert" title="Crear Usuario">
+              <i class="fa-solid fa-circle-plus"></i>
+            </a>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover m-4" id="workers">
+              <thead class="table-primary">
                 <tr>
-                <td><%= element.id %></td>
-                <td><%= element.name %></td>
-                <td><%= element.rol %></td>
-                <td class="<%= element.status %>"><%= element.status %></td>
-                
-                <td>
-                    <a href="/admin/getDataWorkers/<%= element.id %>" title="Ver detalles" class="btn btn-primary" ><i class="fa-solid fa-eye"></i></a>
-                    <a  onclick="updateWorker(<%= element.id %>,'<%= element.name %>', '<%= element.rol %>' )" class="btn btn-success" title="Editar Usuario"  ><i class="fa-solid fa-pen"></i></a>
-                    <a onclick="confirmAcction(<%= element.id %>, '<%= element.status %>')" title="Inhabilitar Usuario"  class="btn btn-danger"><i class="fa-solid fa-circle-minus"></i></a>
-                </td>
-            <%})%>
-            </tr>
-            </tbody>  
-        </table>
-    </div>
-</div>
+                  <th>Id</th>
+                  <th>Usuario</th>
+                  <th>Rol</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% worker.forEach((element) => { %>
+                <tr>
+                  <td><%= element.id %></td>
+                  <td><%= element.name %></td>
+                  <td><%= element.rol %></td>
+                  <td class="<%= element.status %>"><%= element.status %></td>
+                  <td>
+                    <a href="/admin/getDataWorkers/<%= element.id %>" title="Ver detalles" class="btn btn-primary">
+                      <i class="fa-solid fa-eye"></i>
+                    </a>
+                    <a onclick="updateWorker(<%= element.id %>,'<%= element.name %>', '<%= element.rol %>' )" class="btn btn-success" title="Editar Usuario">
+                      <i class="fa-solid fa-pen"></i>
+                    </a>
+                    <a onclick="confirmAcction(<%= element.id %>, '<%= element.status %>')" title="Inhabilitar Usuario" class="btn btn-danger">
+                      <i class="fa-solid fa-circle-minus"></i>
+                    </a>
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
      <!-- Modal -->
     <div class="modal fade" id="modalInsert" tabindex="-1" aria-labelledby="modalInsertLabel" aria-hidden="true">
         <div class="modal-dialog">
