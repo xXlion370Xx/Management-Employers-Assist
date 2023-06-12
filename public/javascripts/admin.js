@@ -1,32 +1,32 @@
 function confirmAcction(id, status){
-    if (status == 'Active') {
-        Swal.fire({
-            icon: 'warning',
-            text: 'Seguro que quieres Inctivar este registro '+ id +'?' ,
-            showCancelButton: true,
-            confirmButtonText: 'Confirmar',
-          }).then((result) => {
-            if (result.isConfirmed) {
-                const url = `/admin/inactiveWorker/${id}/${status}`;
-                window.location.href = url;            }
-        })
-    }else{
-        Swal.fire({
-            icon: 'warning',
-            text: 'Seguro que quieres Activar este registro '+ id +'?' ,
-            showCancelButton: true,
-            confirmButtonText: 'Confirmar',
-          }).then((result) => {
-            if (result.isConfirmed) {
-                const url = `/admin/inactiveWorker/${id}/${status}`;
-                window.location.href = url;            }
-        })
-    }
-   
+  if (status == 'Active') {
+    Swal.fire({
+      icon: 'warning',
+        text: 'Seguro que quieres Inctivar este registro '+ id +'?' ,
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const url = `/admin/inactiveWorker/${id}/${status}`;
+          window.location.href = url;            }
+      })
+  }else{
+  Swal.fire({
+      icon: 'warning',
+      text: 'Seguro que quieres Activar este registro '+ id +'?' ,
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+          const url = `/admin/inactiveWorker/${id}/${status}`;
+          window.location.href = url;            }
+    })
+  }
 }
 
 //Editar 
 function updateWorker(id, name, rol) {
+  
  // Crear los elementos de la modal
  const modalContainer = document.createElement('div');
  modalContainer.className = 'modal';
@@ -60,37 +60,37 @@ function updateWorker(id, name, rol) {
  nombreInput.value = name;
  nombreInput.name = 'name';
 
-   // Crear los campos de entrada (input)
-   const idInput = document.createElement('input');
-   idInput.type = 'hidden';
-   idInput.value = id;
-   idInput.name = 'id';
+  // Crear los campos de entrada (input)
+  const idInput = document.createElement('input');
+  idInput.type = 'hidden';
+  idInput.value = id;
+  idInput.name = 'id';
 
-   const rolInput = document.createElement('select');
-   rolInput.className = 'form-select m-2';
-   rolInput.name = 'rol';
+  const rolInput = document.createElement('select');
+  rolInput.className = 'form-select m-2';
+  rolInput.name = 'rol';
    
-   const option1 = document.createElement('option');
-   option1.textContent = 'worker';
-   option1.value = 'worker';
+  const option1 = document.createElement('option');
+  option1.textContent = 'worker';
+  option1.value = 'worker';
    
-   const option2 = document.createElement('option');
-   option2.value = 'admin';
-   option2.textContent = 'admin';
+  const option2 = document.createElement('option');
+  option2.value = 'admin';
+  option2.textContent = 'admin';
    
-   if (rol === 'worker') {
-     option1.selected = true;
-   } else if (rol === 'admin') {
-     option2.selected = true;
-   }
+  if (rol === 'worker') {
+    option1.selected = true;
+  }else if (rol === 'admin') {
+    option2.selected = true;
+  }
    
-   rolInput.appendChild(option1);
-   rolInput.appendChild(option2);
+  rolInput.appendChild(option1);
+  rolInput.appendChild(option2);
 
-const buttom = document.createElement('button');
-buttom.type = 'submit';
-buttom.className = 'btn btn-primary m-2';
-buttom.textContent = 'Actualizar';
+  const buttom = document.createElement('button');
+  buttom.type = 'submit';
+  buttom.className = 'btn btn-primary m-2';
+  buttom.textContent = 'Actualizar';
 
  
  buttom.addEventListener('click', function() {
@@ -122,17 +122,12 @@ buttom.textContent = 'Actualizar';
  // Agregar los campos de entrada a la modal
 
  modalBody.appendChild(idInput);
-
  modalBody.appendChild(nombreTitulo);
  modalBody.appendChild(nombreInput);
-
  modalBody.appendChild(nombreRol);
  rolInput.appendChild(option1);
-
  rolInput.appendChild(option2);
-
  modalBody.appendChild(rolInput);
-
  modalBody.appendChild(buttom);
 
 
@@ -150,15 +145,10 @@ buttom.textContent = 'Actualizar';
  modalContent.appendChild(modalHeader);
  modalContent.appendChild(modalBody);
  modalContent.appendChild(modalFooter);
- 
-
  modalDialog.appendChild(modalContent);
-
  modalContainer.appendChild(modalDialog);
-
  // Agregar la modal al documento
  document.body.appendChild(modalContainer);
-
  // Mostrar la modal (si estás utilizando Bootstrap)
  const modal = new bootstrap.Modal(modalContainer);
  modal.show();
