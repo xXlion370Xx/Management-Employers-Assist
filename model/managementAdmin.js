@@ -10,8 +10,11 @@ const getAdminList = (req, res) =>{
             console.log(err);
         }
     
-        const sql = "SELECT * FROM users WHERE rol= 'worker'";
-        conn.query(sql, (err, data) => {
+        const sql = "SELECT id, name,CASE WHEN rol = 'worker' THEN 'Trabajador' ELSE rol END AS rol, CASE \
+            WHEN status = 'Active' THEN 'Activo' WHEN status = 'Inactive' THEN 'Inactivo' \
+            ELSE status END AS status FROM (SELECT id, name, rol, status FROM users WHERE rol = 'worker') AS subquery";
+
+            conn.query(sql, (err, data) => {
             if (err) {
                 console.log("Query error");
                 console.log(err);
@@ -129,10 +132,38 @@ const getDataWorkers = (req, res) =>{
 
 }
 
+const updateWorker = (req, res) =>{
+    const id = req.params.id;
+    const usuario = req.params.usuario;
+    const rol = req.params.rol;
+
+    req.getConnection((err, conn) => {
+        if (err) {
+            console.log("Error in get connection");
+            console.log(err);
+        }
+    
+        const sql =`UPDATE users SET name=?, rol=?  WHERE id= ?` ;
+        conn.query(sql, [usuario,rol,id], (err, data) => {
+            if (err) {
+                console.log("Query error");
+                console.log(err);
+            }else{
+                console.log('Consulta Exitosa');
+                console.log(data);
+
+                res.redirect('/admin/workers');
+            }
+    
+        });
+    });
+}
+
 module.exports = {
     getAdminList: getAdminList,
     insertWorker: insertWorker,
     inactiveWorker: inactiveWorker,
-    getDataWorkers: getDataWorkers
+    getDataWorkers: getDataWorkers,
+    updateWorker : updateWorker
 
 }

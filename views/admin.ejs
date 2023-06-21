@@ -19,42 +19,45 @@
                 <i class="fa-solid fa-user"></i> Bienvenido <%= rol %>
                     <%= user %>
             </a>
-            <a href="./users/logout" style="float: right;">Cerrar sesion
-                <i class="fa-solid fa-power-off" style="color: #ffffff;"></i></a>
+            <div style="float: right;">
+                <i class="fa-solid fa-power-off" style="color: #ffffff;"></i>
+                <a href="./users/logout" style="text-decoration: none;color: white;">Cerrar Sesion</a><br>
+            </div>
         </div>
     </nav><BR>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-4">
+        <div class="container">
+            <div class="row">
+              <div class="col-sm-6 col-md-4">
                 <div class="card" style="width: 18rem;">
-                    <img src="./..//images/empleados_img.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Empleados</h5>
-                        <a href="/admin/" class="btn btn-primary">Gestionar</a>
-                    </div>
+                  <img src="./..//images/empleados_img.jpg" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Empleados</h5>
+                    <a href="/admin/" class="btn btn-primary">Gestionar</a>
+                  </div>
                 </div>
-            </div>
-            <div class="col-4">
+              </div>
+              <div class="col-sm-6 col-md-4">
                 <div class="card" style="width: 18rem;">
-                    <img src="./..//images/usuarios_img.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Usuarios</h5>
-                        <a href="#" class="btn btn-primary">Gestionar</a>
-                    </div>
+                  <img src="./..//images/usuarios_img.png" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Mi Usuario</h5>
+                    <a href="#" class="btn btn-primary">Gestionar</a>
+                  </div>
                 </div>
-            </div>
-            <div class="col-4">
+              </div>
+              <div class="col-sm-6 col-md-4">
                 <div class="card" style="width: 18rem;">
-                    <img src="./..//images/nomina_img.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Nomina</h5>
-                        <a href="#" class="btn btn-primary">Gestionar</a>
-                    </div>
+                  <img src="./..//images/nomina_img.png" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Nomina</h5>
+                    <a href="#" class="btn btn-primary">Gestionar</a>
+                  </div>
                 </div>
+              </div>
             </div>
-        </div>
-    </div>
+          </div>
+          
 
 
 </body>
