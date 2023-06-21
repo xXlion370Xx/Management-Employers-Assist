@@ -1,0 +1,10 @@
+.Activo{
+    color: rgb(69, 168, 69);
+    font-weight: bold;
+  }
+  
+.Inactivo{
+    color: rgb(178, 72, 72);
+    font-weight: bold;
+
+  }

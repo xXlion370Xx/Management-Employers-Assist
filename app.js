@@ -7,6 +7,8 @@ const mysql = require('mysql');
 const myconnection = require('express-myconnection');
 const indexRouter = require('./controller/routes/index');
 const usersRouter = require('./controller/routes/users');
+const adminRouter = require('./controller/routes/admin');
+
 const dbConfig = require('./model/UTILS/dbConfig');
 
 
@@ -25,6 +27,8 @@ app.use(myconnection(mysql, dbConfig, 'single'));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/admin', adminRouter);
+
 
 
 // catch 404 and forward to error handler

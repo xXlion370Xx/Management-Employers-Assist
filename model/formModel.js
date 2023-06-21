@@ -67,30 +67,39 @@ const getHomePage = (req, res) => {
                         return res.render('login', { title: 'Inicio de sesión', errorMessage: '' })
                     }
 
-                    console.log("Decoded token info: ");
+                    console.log("Decoded token user info: ");
                     console.log(decodedTokenUser);
 
-                    generatorTokens.generateToken('1h', decodedTokenUser).then(tokenUser => {
-                        console.log("token generated: " + tokenUser);
+                    generatorTokens.generateToken('1h', decodedTokenUser)
+                        .then(tokenUser => {
+                            console.log("token user generated: " + tokenUser);
 
-                        const view = userView(decodedTokenUser["rol"]);
-                        console.log("This is the view that will be send " + view);
+                            const view = userView(decodedTokenUser["rol"]);
+                            console.log("This is the view that will be send: " + view);
 
-                        res.cookie('token', tokenUser, {
-                            httpOnly: true,
-                            maxAge: 3600000 // 1 hour
-                        }).render(view, {
-                            title: tokenUser["name"],
-                            user: tokenUser["name"],
-                            rol: tokenUser["rol"]
-                        });
-                    })
+                            res.cookie('token', tokenUser, {
+                                httpOnly: true,
+                                maxAge: 3600000 // 1 hour
+                            }).render(view, {
+                                title: "Registros " + decodedTokenUser["name"],
+                                user: decodedTokenUser["name"],
+                                rol: decodedTokenUser["rol"],
+                                message: "No se encontró un rol en el sistema.",
+                                error: {
+                                    status: "noRol",
+                                    message: "Contacte con el administrador para asignarle un rol."
+                                }
+                            });
+                        }).catch(error => {
+                            console.log("Something went wrong while generating and sending the token user info due to: " + error);
+                            console.log(error);
+                        })
 
                 });
                 return;
             }
             console.log("Token in black listed tokens!");
-            res.render('login', { title: 'Login', errorMessage: 'Debes iniciar sesion primero' });
+            res.render('login', { title: 'Login', errorMessage: 'Debes iniciar sesión primero' });
         })
     })
 
@@ -101,12 +110,14 @@ const login = async (req, res) => {
 
     req.getConnection((err, conn) => {
         if (err) {
-            console.log("Can't connect to databsae due to: " + err);
+            console.log("Can't connect to database due to: " + err);
             console.log(err);
         }
         console.log("Connection satisfactory!");
         const sql = "SELECT * FROM users WHERE name = ?";
         conn.query(sql, [user], (err, data) => {
+            console.log("Database response querying the user to login")
+            console.log(data);
             console.log("Quering the user in the database");
             if (err) throw err;
 
@@ -132,15 +143,20 @@ const login = async (req, res) => {
                 generatorTokens.generateToken('1h', data[0]).then(token => {
 
                     const view = userView(data[0].rol);
-                    console.log("This is the view that will be send " + view);
+                    console.log("This is the view that will be send: " + view);
 
                     res.cookie('token', token, {
                         httpOnly: true,
                         maxAge: 3600000 // 1 hour
                     }).render(view, {
-                        title: data[0].user,
-                        user: data[0].user,
-                        rol: data[0].rol
+                        title: "Registros" + data[0].name,
+                        user: data[0].name,
+                        rol: data[0].rol,
+                        message: "No se encontro un rol en el sistema.",
+                        error: {
+                            status: "noRol",
+                            message: "Contacte con el administrador para asignarle un rol."
+                        }
                     });
 
                 }).catch(err => {
@@ -156,10 +172,11 @@ const login = async (req, res) => {
 const userView = (userRol) => {
     const views = {
         "admin": "admin",
-        "worker": "worker"
+        "worker": "worker",
+        "adminWorker": "adminWorker"
     }
 
-    return views[userRol] || "rolNotFound";
+    return views[userRol] || "error";
 }
 
 module.exports = {
