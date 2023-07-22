@@ -1,0 +1,11 @@
+{
+  "apps": [
+    {
+      "app_id": "app_03b2a2e9-9bf5-4ba4-9163-73b4d0241759",
+      "org_id": "user_52d46776-ef65-4785-99b5-c5c7934c98a4",
+      "deploy_url": "https://github.com/xXlion370Xx/ConfeccionesLYZNODEJS.git",
+      "name": "ConfeccionesLYZNODEJS",
+      "alias": "ConfeccionesLYZNODEJS"
+    }
+  ]
+}
