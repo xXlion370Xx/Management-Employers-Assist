@@ -3,7 +3,7 @@ async function getUserAssist(url) {
     return await response.json();
 }
 
-const url = "http://localhost:3000/users/asist";
+const url = "https://confeccioneslyz.onrender.com/users/asist";
 
 getUserAssist(url)
     .then(data => {
