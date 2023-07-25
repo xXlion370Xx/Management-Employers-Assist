@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "node ./bin/www",
+    "build": "npm install",
+    "start-dev": "nodemon ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -13,10 +15,11 @@
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "express-myconnection": "^1.0.4",
+    "fetch": "^1.1.0",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^9.0.0",
     "morgan": "~1.9.1",
-    "mysql": "^2.18.1"
+    "mysql2": "^3.5.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

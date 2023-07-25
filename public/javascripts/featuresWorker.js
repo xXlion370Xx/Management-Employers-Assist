@@ -1,14 +1,14 @@
-async function getUserAsist(url) {
+async function getUserAssist(url) {
     const response = await fetch(url);
     return await response.json();
 }
 
-const url = "http://localhost:3000/users/asist";
+const url = "https://confeccioneslyz.onrender.com/users/asist";
 
-getUserAsist(url)
+getUserAssist(url)
     .then(data => {
-        showUserAsist(data);
-        filterDataAsist("tableAsist");
+        showUserAssist(data);
+        filterDataAssist("tableAssist");
         handleButtonsAssist(data);
     })
     .catch(err => {
@@ -18,31 +18,29 @@ getUserAsist(url)
     });
 
 function handleButtonsAssist(dateExist) {
+    console.log(dateExist);
+
     const lastItemData = dateExist[dateExist.length - 1];
-    console.log(lastItemData);
-
+    const buttonDateRegister = document.getElementById('buttonRegisterDate');
+    buttonDateRegister.innerText = "Entrada";
     if (lastItemData["time_in"] != null && lastItemData["time_out"] != null) {
-        const buttonIn = document.getElementById('buttonIn');
-        console.log("show entry");
-        buttonIn.removeAttribute("hidden");
+        console.log("Show entry")
         return;
     }
 
+    //if entry exist, show the button exit
     if (lastItemData["time_in"] != null) {
-        const buttonOut = document.getElementById('buttonOut');
-        buttonOut.removeAttribute("hidden");
+        buttonDateRegister.setAttribute("name", "exit");
+        buttonDateRegister.setAttribute("value", "exit");
+        buttonDateRegister.innerText = "Salida";
         console.log("Show exit");
-        return;
     }
-    if (lastItemData["time_out"] != null) {
-        const buttonIn = document.getElementById('buttonIn');
-        buttonIn.removeAttribute("hidden");
 
-        console.log("show entry");
-    }
+
+
 }
 
-const showUserAsist = (dataAsist) => {
+const showUserAssist = (dataAsist) => {
 
     const tbody = document.getElementById("tbody");
     const documentFragment = document.createDocumentFragment();
@@ -76,7 +74,7 @@ const showUserAsist = (dataAsist) => {
     tbody.appendChild(documentFragment);
 }
 
-function filterDataAsist(tableId) {
+function filterDataAssist(tableId) {
     $(document).ready(function () {
         $('#' + tableId).DataTable({
             language: {
@@ -92,8 +90,9 @@ function filterDataAsist(tableId) {
                     "previous": "Anterior"
                 },
             },
+            lengthMenu: [5, 10, 25, 50, 75, 100],
             searching: false,
         });
     });
-    $('#tableAsist').show();
+    $('#tableAssist').show();
 }

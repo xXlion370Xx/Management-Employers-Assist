@@ -60,7 +60,7 @@ const inactiveWorker = (req, res) =>{
     const id = req.params.id;
     const status = req.params.status;
 
-    if (status == 'Active') {
+    if (status == 'Activo') {
         req.getConnection((err, conn) => {
             if (err) {
                 console.log("Error in get connection");

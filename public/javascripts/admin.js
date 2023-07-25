@@ -1,5 +1,5 @@
 function confirmAcction(id, status){
-  if (status == 'Active') {
+  if (status == 'Activo') {
     Swal.fire({
       icon: 'warning',
         text: 'Seguro que quieres Inctivar este registro '+ id +'?' ,

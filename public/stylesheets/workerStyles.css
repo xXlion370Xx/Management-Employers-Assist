@@ -1,0 +1,45 @@
+/* 
+General styles
+*/
+a {
+    text-decoration: none;
+}
+
+button {
+    border: none;
+}
+
+/*------------*/
+
+.logout {
+    color: #fff;
+    background-color: #2691D9;
+    border-radius: 15px;
+    padding: 10px 7px;
+}
+
+.header {
+    background-color: #7353B1;
+    color: #fff;
+    height: 100px;
+}
+
+.buttonRegister {
+    background-color: #2691D9;
+    color: #fff;
+    width: 300px;
+    height: 150px;
+    border-radius: 15px;
+    font-size: 32px;
+}
+
+.tableAssist thead,
+.tableAssist tfoot {
+    background-color: #555555;
+    color: #fff;
+}
+
+.tableAssist tbody {
+    background-color: #D9D9D9;
+
+}

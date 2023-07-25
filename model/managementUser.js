@@ -12,7 +12,7 @@ const logOut = (req, res) => {
             if (err) {
                 console.log(sql)
                 console.log("Can't insert the black list token due to: " + err)
-                res.clearCookie('token').redirect('/', { errorMessage: 'Something went wrong' });
+                res.clearCookie('token').redirect({ errorMessage: 'Something went wrong' }, '/');
 
                 return;
             }

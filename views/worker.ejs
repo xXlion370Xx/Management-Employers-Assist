@@ -8,50 +8,70 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="stylesheets/general.css">
     <% include('templates/googleFonts')%>
         <!-- Styles for data tables -->
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
         <%- include('templates/bootstrap.ejs') %>
+
+            <link rel="stylesheet" href="stylesheets/general.css">
+            <link rel="stylesheet" href="stylesheets/workerStyles.css">
 </head>
 
 <body>
+    <div class="container-fluid">
+        <header class="row header">
+            <div class="col d-flex justify-content-start align-items-center">
+                <h1>Confecciones LYZ</h1>
+            </div>
+            <div class="col d-flex justify-content-end align-items-center">
+                <a class="logout" href="/users/logout">Cerrar Sesión</a>
+            </div>
+        </header>
+        <main class="row">
+            <div class="col-12 mt-3">
+                <h2>
+                    Bienvenido, <%= user %>
+                </h2>
+            </div>
 
-    <h1>
-        Registrar hora <%= user %>
-    </h1>
 
-    <h2>
-        <%= rol %>
-    </h2>
-    <form action="users/asist" method="post">
-        <button hidden id="buttonIn" name="entry" value="entry" class="button">Ingreso</button>
-        <button hidden id="buttonOut" name="exit" value="entry" class="button">Salida</button>
-    </form>
-    <a href="/users/logout">Cerrar sesion</a>
+            <div class="col-12">
+                <form action="users/asist" method="post" class="row p-3 justify-content-center">
+                    <button id="buttonRegisterDate" name="entry" value="entry" class="buttonRegister col-1"></button>
+                </form>
+            </div>
 
-    <table data-order='[[0, "desc"]]' id="tableAsist" class="table table-striped" style="width:100%">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Entrada</th>
-                <th scope="col">Salida</th>
-                <th scope="col">Fecha</th>
-            </tr>
-        </thead>
-        <tbody id="tbody" class="table-group-divider">
+            <div class="col-12">
+                <div class="row justify-content-center">
+                    <div class=" col-10">
+                        <table data-order='[[0, "desc"]]' id="tableAssist" class="tableAssist" style="
+                        width:100%">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Entrada</th>
+                                    <th scope="col">Salida</th>
+                                    <th scope="col">Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody" class="table-group-divider">
 
-        </tbody>
-        <tfoot>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Entrada</th>
-                <th scope="col">Salida</th>
-                <th scope="col">Fecha</th>
-            </tr>
-        </tfoot>
-    </table>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Entrada</th>
+                                    <th scope="col">Salida</th>
+                                    <th scope="col">Fecha</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
 
+    </div>
     <!-- At first we have to call de jquert library -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Then call de CDN data table library -->
