@@ -7,6 +7,7 @@ const dbConfig = {
     ssl: {
         rejectUnauthorized: true
     }
+
 }
 
 module.exports = dbConfig;
