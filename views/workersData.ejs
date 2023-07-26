@@ -2,42 +2,44 @@
 <html lang="en">
 
 <head>
-    <title>Pagina Administrador - Trabajadores</title>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <%- include('templates/bootstrap.ejs') %>
-    <script  src="/javascripts/admin.js"></script>
+  <title>Pagina Administrador - Trabajadores</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('templates/bootstrap.ejs') %>
+    <script src="/javascripts/admin.js"></script>
     <link rel='stylesheet' href='/stylesheets/admin.css' />
 
     <script src="https://kit.fontawesome.com/0364c5acb2.js" crossorigin="anonymous"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>  
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 
 
 
 </head>
+
 <body>
-    
-<nav class="navbar bg-body-tertiary bg-dark " data-bs-theme="dark">
+
+  <nav class="navbar bg-body-tertiary bg-dark " data-bs-theme="dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <h2>Gestionar Empleados</h2>
-        </a>
-        <div style="float: right;">
-           
-          <i class="fa-solid fa-power-off" style="color: #ffffff;"></i>
-          <a href="/users/logout" style="text-decoration: none;color: white;">Cerrar Sesion</a>
+      <a class="navbar-brand" href="#">
+        <h2>Gestionar Empleados</h2>
+      </a>
+      <div style="float: right;">
 
-        </div>
-    </div> 
-</nav><br>
+        <i class="fa-solid fa-power-off" style="color: #ffffff;"></i>
+        <a href="/users/logout" style="text-decoration: none;color: white;">Cerrar Sesion</a>
 
-<div class="container d-flex justify-content-center">
+      </div>
+    </div>
+  </nav><br>
+
+  <div class="container d-flex justify-content-center">
     <div class="col-8">
       <div class="col-12 m-2 d-flex justify-content-between">
         <div class="d-flex justify-content-center align-items-center">
-          <a href="/users/logout" style="text-decoration: none; color: black;"><i class="fa-solid fa-arrow-left"></i> Atras</a>
+          <a href="/admin/" style="text-decoration: none; color: black;"><i class="fa-solid fa-arrow-left"></i>
+            Atras</a>
         </div>
       </div>
       <div class="table-responsive">
@@ -52,50 +54,60 @@
             </tr>
           </thead>
           <tbody>
-            <% workerData.forEach((element) => { %>
-            <tr>
-              <td><%= element.Id %></td>
-              <td><%= element.Nombre %></td>
-              <td><%= element.Ingreso %></td>
-              <td><%= element.Salida %></td>
-              <td><%= element.Fecha %></td>
-            </tr>
-            <% }) %>
+            <% workerData.forEach((element)=> { %>
+              <tr>
+                <td>
+                  <%= element.Id %>
+                </td>
+                <td>
+                  <%= element.Nombre %>
+                </td>
+                <td>
+                  <%= element.Ingreso %>
+                </td>
+                <td>
+                  <%= element.Salida %>
+                </td>
+                <td>
+                  <%= element.Fecha %>
+                </td>
+              </tr>
+              <% }) %>
           </tbody>
         </table>
       </div>
     </div>
   </div>
-  
- <!-- Data Tables -->
- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
- <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
- <script>
-     //DataTables
-       $(document).ready(function () {
-         $('#dataWorkers').DataTable({
-           pageLength: 5,
-           lengthMenu: [[5,10,20,-1], [5,10,20,'Todos']],
-           language: {
-                lengthMenu: "Mostrar _MENU_ registros por página",
-                zeroRecords: "No encontrado",
-                info: "Mostrando página _PAGE_ de _PAGES_",
-                infoEmpty: "No hay información",
-                infoFiltered: "(filtrado de _MAX_ total registros)",
-                paginate: {
-                    "first": "Primero",
-                    "last": "Último",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                },
-                
-            },
-            searching: false,
-         });
-       
-       });
-   </script>
+
+  <!-- Data Tables -->
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+  <script>
+    //DataTables
+    $(document).ready(function () {
+      $('#dataWorkers').DataTable({
+        pageLength: 5,
+        lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']],
+        language: {
+          lengthMenu: "Mostrar _MENU_ registros por página",
+          zeroRecords: "No encontrado",
+          info: "Mostrando página _PAGE_ de _PAGES_",
+          infoEmpty: "No hay información",
+          infoFiltered: "(filtrado de _MAX_ total registros)",
+          paginate: {
+            "first": "Primero",
+            "last": "Último",
+            "next": "Siguiente",
+            "previous": "Anterior"
+          },
+
+        },
+        searching: false,
+      });
+
+    });
+  </script>
 
 </body>
 
