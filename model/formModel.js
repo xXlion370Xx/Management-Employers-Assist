@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const validator = require('validator');
 const generatorTokens = require('./UTILS/generatorTokens');
+const { vatMatchers } = require('validator/lib/isVAT');
 require('dotenv').config();
 
 const register = async (req, res) => {
@@ -108,6 +110,10 @@ const getHomePage = (req, res) => {
 const login = async (req, res) => {
     const { user, password } = req.body;
 
+    if (!validator.isAlphanumeric(user)) {
+        res.render('login', { title: 'Iniciar Sesión', errorMessage: 'No se aceptan caracteres especiales' })
+        return;
+    }
     req.getConnection((err, conn) => {
         if (err) {
             console.log("Can't connect to database due to: " + err);
@@ -116,7 +122,7 @@ const login = async (req, res) => {
         console.log("Connection satisfactory!");
         const sql = "SELECT * FROM users WHERE name = ?";
         conn.query(sql, [user], (err, data) => {
-            console.log("Database response querying the user to login")
+            console.log("Database response querying the user to login");
             console.log(data);
             console.log("Quering the user in the database");
             if (err) throw err;
@@ -126,6 +132,10 @@ const login = async (req, res) => {
                 console.log("No data with that info: " + data.length);
 
                 return;
+            }
+
+            if (data[0].status == "Inactive") {
+                res.render('login', { title: 'Inicio de Sesión', errorMessage: 'Usuario desactivado' })
             }
 
             bcrypt.compare(password, data[0].password, (err, same) => {

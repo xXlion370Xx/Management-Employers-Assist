@@ -18,15 +18,15 @@
 </head>
 
 <body>
-  <form action="/login" method="post" class="form">
+  <form action="/login" method="post" class="form" autocomplete="off">
     <h1>Inicio de sesión</h1>
     <label for="user">
       Usuario<br>
-      <input type="text" name="user" id="user" class="inputs">
+      <input type="text" name="user" id="user" class="inputs" required pattern="[A-Za-z0-9]+">
     </label>
     <label for="password" class="">
       Contraseña<br>
-      <input type="password" name="password" id="password" class="inputs">
+      <input type="password" name="password" id="password" class="inputs" required pattern="[A-Za-z0-9]+">
     </label>
 
     <button type="submit" class="button">Ingresar</button>
