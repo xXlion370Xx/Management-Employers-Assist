@@ -9,6 +9,8 @@ router.post('/createWorker', managementAdmin.insertWorker);
 
 router.get('/inactiveWorker/:id/:status', managementAdmin.inactiveWorker);
 router.get('/getDataWorkers/:id', managementAdmin.getDataWorkers);
-
+router.get('/edit', (req, res) => {
+    res.render('editMyUser', { title: 'Editar mi usuario' });
+})
 
 module.exports = router;
