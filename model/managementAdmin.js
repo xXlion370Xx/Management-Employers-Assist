@@ -2,26 +2,26 @@ const { query } = require('express');
 const bcrypt = require('bcrypt');
 
 
-const getAdminList = (req, res) =>{
+const getAdminList = (req, res) => {
 
     req.getConnection((err, conn) => {
         if (err) {
             console.log("Error in get connection");
             console.log(err);
         }
-    
+
         const sql = "SELECT id, name,CASE WHEN rol = 'worker' THEN 'Trabajador' ELSE rol END AS rol, CASE \
             WHEN status = 'Active' THEN 'Activo' WHEN status = 'Inactive' THEN 'Inactivo' \
             ELSE status END AS status FROM (SELECT id, name, rol, status FROM users WHERE rol = 'worker') AS subquery";
 
-            conn.query(sql, (err, data) => {
+        conn.query(sql, (err, data) => {
             if (err) {
                 console.log("Query error");
                 console.log(err);
-            }else{
-                res.render('workers' , {worker:data});
+            } else {
+                res.render('workers', { worker: data });
             }
-    
+
         });
     });
 }
@@ -56,7 +56,7 @@ const insertWorker = (req, res) => {
     });
 };
 
-const inactiveWorker = (req, res) =>{
+const inactiveWorker = (req, res) => {
     const id = req.params.id;
     const status = req.params.status;
 
@@ -66,44 +66,44 @@ const inactiveWorker = (req, res) =>{
                 console.log("Error in get connection");
                 console.log(err);
             }
-        
+
             const sql = "UPDATE users SET status = 'Inactive' WHERE id = ?";
             conn.query(sql, [id], (err, data) => {
                 if (err) {
                     console.log("Query error");
                     console.log(err);
-                }else{
+                } else {
                     console.log('Registro Incativo');
 
                     res.redirect('/admin');
                 }
-        
+
             });
         });
-    }else{
+    } else {
         req.getConnection((err, conn) => {
             if (err) {
                 console.log("Error in get connection");
                 console.log(err);
             }
-        
+
             const sql = "UPDATE users SET status = 'Active' WHERE id = ?";
             conn.query(sql, [id], (err, data) => {
                 if (err) {
                     console.log("Query error");
                     console.log(err);
-                }else{
+                } else {
                     console.log('Registro Activado');
 
                     res.redirect('/admin');
                 }
-        
+
             });
         });
     }
 }
 
-const getDataWorkers = (req, res) =>{
+const getDataWorkers = (req, res) => {
 
     const id = req.params.id;
     req.getConnection((err, conn) => {
@@ -111,8 +111,8 @@ const getDataWorkers = (req, res) =>{
             console.log("Error in get connection");
             console.log(err);
         }
-    
-        const sql =`SELECT a.id_asist as Id, b.name as Nombre, a.time_in as Ingreso, a.time_out as Salida, a.date as Fecha
+
+        const sql = `SELECT a.id_asist as Id, b.name as Nombre, a.time_in as Ingreso, a.time_out as Salida, a.date as Fecha
         FROM asist a 
         JOIN users b ON a.id_user = b.id
         WHERE b.id = ?` ;
@@ -120,19 +120,19 @@ const getDataWorkers = (req, res) =>{
             if (err) {
                 console.log("Query error");
                 console.log(err);
-            }else{
+            } else {
                 console.log('Consulta Exitosa');
                 console.log(data);
 
-                res.render('workersData' , {workerData:data});
+                res.render('workersData', { workerData: data });
             }
-    
+
         });
     });
 
 }
 
-const updateWorker = (req, res) =>{
+const updateWorker = (req, res) => {
     const id = req.params.id;
     const usuario = req.params.usuario;
     const rol = req.params.rol;
@@ -142,21 +142,27 @@ const updateWorker = (req, res) =>{
             console.log("Error in get connection");
             console.log(err);
         }
-    
-        const sql =`UPDATE users SET name=?, rol=?  WHERE id= ?` ;
-        conn.query(sql, [usuario,rol,id], (err, data) => {
+
+        const sql = `UPDATE users SET name=?, rol=?  WHERE id= ?`;
+        conn.query(sql, [usuario, rol, id], (err, data) => {
             if (err) {
                 console.log("Query error");
                 console.log(err);
-            }else{
+            } else {
                 console.log('Consulta Exitosa');
                 console.log(data);
 
                 res.redirect('/admin/workers');
             }
-    
+
         });
     });
+}
+
+const updateAdminData = (req, res) => {
+    const { newUser, newPassword } = req.body;
+    console.log(newUser + "+" + newPassword);
+    res.redirect('/admin')
 }
 
 module.exports = {
@@ -164,6 +170,6 @@ module.exports = {
     insertWorker: insertWorker,
     inactiveWorker: inactiveWorker,
     getDataWorkers: getDataWorkers,
-    updateWorker : updateWorker
-
+    updateWorker: updateWorker,
+    updateAdminData: updateAdminData,
 }
