@@ -1,6 +1,7 @@
-const { query } = require('express');
 const bcrypt = require('bcrypt');
-
+const validator = require('validator');
+const jwt = require('jsonwebtoken');
+const { token } = require('morgan');
 
 const getAdminList = (req, res) => {
 
@@ -106,6 +107,7 @@ const inactiveWorker = (req, res) => {
 const getDataWorkers = (req, res) => {
 
     const id = req.params.id;
+
     req.getConnection((err, conn) => {
         if (err) {
             console.log("Error in get connection");
@@ -161,8 +163,33 @@ const updateWorker = (req, res) => {
 
 const updateAdminData = (req, res) => {
     const { newUser, newPassword } = req.body;
+    const tokenUserData = req.cookies.token;
+    const { id, name } = jwt.decode(tokenUserData);
+
     console.log(newUser + "+" + newPassword);
-    res.redirect('/admin')
+    if (!validator.isAlphanumeric(newUser) && !validator.isAlphanumeric(newPassword)) {
+        res.render('editMyUser', { title: 'Editar mi usuario', userName: name, errorMessage: 'No se aceptan caracteres especiales' })
+        return;
+    }
+    req.getConnection((err, conn) => {
+        if (err) {
+            res.status(500).render('login', { title: 'Error en el servidor', userName: name, errorMessage: 'Error interno en el servidor' })
+        }
+
+        if (newPassword == "") {
+            const sql = "UPDATE users SET name = ? WHERE id = ?";
+            conn.query(sql, [newUser, id], (err, resultSet) => {
+                if (err) {
+                    res.status(500).render('editMyUser', { title: 'Editar mi usuario', userName: name, errorMessage: 'Error interno' });
+                    console.log("Query error: " + err);
+                    return;
+                }
+
+                console.log(resultSet);
+                res.redirect('/');
+            })
+        }
+    })
 }
 
 module.exports = {

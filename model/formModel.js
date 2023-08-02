@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
 const generatorTokens = require('./UTILS/generatorTokens');
-const { vatMatchers } = require('validator/lib/isVAT');
 require('dotenv').config();
 
 const register = async (req, res) => {
@@ -110,7 +109,7 @@ const getHomePage = (req, res) => {
 const login = async (req, res) => {
     const { user, password } = req.body;
 
-    if (!validator.isAlphanumeric(user)) {
+    if (!validator.isAlphanumeric(user) && !validator.isAlphanumeric(password)) {
         res.render('login', { title: 'Iniciar Sesión', errorMessage: 'No se aceptan caracteres especiales' })
         return;
     }

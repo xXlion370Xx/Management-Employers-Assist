@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <% include('templates/googleFonts')%>
+        <!-- Styles for data tables -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+        <%- include('templates/bootstrap.ejs') %>
+            <link rel="stylesheet" href="/stylesheets/general.css">
+            <link rel="stylesheet" href="/stylesheets/editAdmin.css">
+            <!-- Icons -->
+            <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <header class="row header">
+            <div class="col d-flex justify-content-start align-items-center">
+                <h1>Confecciones LYZ</h1>
+            </div>
+            <div class="col d-flex justify-content-end align-items-center">
+                <a class="logout" href="/users/logout">Cerrar Sesión</a>
+            </div>
+        </header>
+        <main class="row justify-content-center ">
+            <div class="col-6 bg-black mt-4">
+                <h1>Mi usuario</h1>
+                <form action="/admin/edit" method="POST" class="form">
+                    <div class="user-photo bg-dark">
+                        <img src="/images/userPhoto" alt="Foto de perfil">
+                    </div>
+                    <label for="user">
+                        <p>Usuario</p>
+                        <input value="<%=userName%>" name="newUser" id="user-edit" type="text" readonly
+                            pattern="[A-Za-z0-9]+">
+                        <i id="button-edit-user" class="uil uil-edit"></i>
+                    </label>
+
+                    <br>
+                    <label for="password">
+                        <p>Password</p>
+                        <input placeholder="*********" name="newPassword" id="password-edit" type="password" readonly
+                            pattern="[A-Za-z0-9]+">
+                        <i id="button-edit-password" class="uil uil-edit"></i>
+                    </label>
+                    <button id="button-update" class="button-update bg-secondary" disabled>Actualizar</button>
+                    <% if (typeof errorMessage !=='undefined' ) { %>
+                        <div class="error-message">
+                            <%= errorMessage %>
+                        </div>
+                        <% } %>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="/javascripts/editAdmin.js"></script>
+
+</html>

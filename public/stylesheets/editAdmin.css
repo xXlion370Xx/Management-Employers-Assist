@@ -1,0 +1,64 @@
+/* 
+General styles
+*/
+a {
+    text-decoration: none;
+}
+
+button {
+    border: none;
+}
+
+/*------------*/
+
+.logout {
+    color: #fff;
+    background-color: #2691D9;
+    border-radius: 15px;
+    padding: 10px 7px;
+}
+
+.header {
+    background-color: #7353B1;
+    color: #fff;
+    height: 100px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    height: 400px;
+    margin-top: 50px;
+    flex-direction: column;
+    align-items: center;
+    background-color: blue;
+}
+
+.ready {
+    background-color: blue;
+}
+
+.uil-edit {
+    font-size: 24px;
+}
+
+.uil-edit:hover {
+    cursor: pointer;
+}
+
+.button-update {
+    color: #fff;
+    background-color: #2691D9;
+    margin-top: 10px;
+    border-radius: 15px;
+    padding: 8px 7px;
+}
+
+.user-photo {
+    width: 100px;
+    height: 80px;
+    border-radius: 100px;
+}
