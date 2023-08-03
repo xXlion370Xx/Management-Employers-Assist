@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
-const { token } = require('morgan');
+const generatorTokens = require('./UTILS/generatorTokens');
 
 const getAdminList = (req, res) => {
 
@@ -174,21 +174,103 @@ const updateAdminData = (req, res) => {
     req.getConnection((err, conn) => {
         if (err) {
             res.status(500).render('login', { title: 'Error en el servidor', userName: name, errorMessage: 'Error interno en el servidor' })
+            return;
         }
 
+        let sql = "";
         if (newPassword == "") {
-            const sql = "UPDATE users SET name = ? WHERE id = ?";
+            sql = "UPDATE users SET name = ? WHERE id = ?";
             conn.query(sql, [newUser, id], (err, resultSet) => {
+
                 if (err) {
                     res.status(500).render('editMyUser', { title: 'Editar mi usuario', userName: name, errorMessage: 'Error interno' });
-                    console.log("Query error: " + err);
+                    console.log("Query error in update username: " + err);
+
+                    return;
+                }
+                if (resultSet.affectedRows >= 1) {
+
+                    sql = "SELECT * FROM users WHERE id = ?";
+                    conn.query(sql, [id], (err, resultSet) => {
+                        if (err) {
+                            res.status(500).render('editMyUser', { title: 'Editar mi usuario', userName: name, errorMessage: 'Error interno' });
+                            console.log("Query error searching username update: " + err);
+                            return;
+                        }
+
+                        generatorTokens.generateToken('1h', resultSet[0])
+                            .then(tokenUser => {
+                                console.log("token user generated: " + tokenUser);
+
+                                res.status(200).cookie('token', tokenUser, {
+                                    httpOnly: true,
+                                    maxAge: 3600000 // 1 hour
+                                }).render('editMyUser',
+                                    {
+                                        title: 'Editar mi usuario',
+                                        userName: resultSet[0].name,
+                                        errorMessage: 'Actualización exitosa'
+                                    });
+                                return;
+                            }).catch(error => {
+                                console.log("Something went wrong while generating and sending the token user info due to: " + error);
+                                console.log(error);
+                            });
+                    });
+                }
+            });
+            return;
+        }
+
+        sql = "UPDATE users SET name = ?, password = ? WHERE id = ?";
+
+        bcrypt.hash(newPassword, 10, (err, hash) => {
+            if (err) {
+                res.status(500).render('editMyUser', { title: 'Editar mi usuario', userName: name, errorMessage: 'Error interno' });
+                console.log("Error while hash is generating in username and pwd update: " + err);
+
+                return;
+            }
+            conn.query(sql, [newUser, hash, id], (err, resultSet) => {
+                if (err) {
+                    res.status(500).render('editMyUser', { title: 'Editar mi usuario', userName: name, errorMessage: 'Error interno' });
+                    console.log("Error in query update username and password: " + err);
+
                     return;
                 }
 
-                console.log(resultSet);
-                res.redirect('/');
+                if (resultSet.affectedRows >= 1) {
+
+                    sql = "SELECT * FROM users WHERE id = ?";
+                    conn.query(sql, [id], (err, resultSet) => {
+                        if (err) {
+                            res.status(500).render('editMyUser', { title: 'Editar mi usuario', userName: name, errorMessage: 'Error interno' });
+                            console.log("Query error in searching changes: " + err);
+                            return;
+                        }
+
+                        generatorTokens.generateToken('1h', resultSet[0])
+                            .then(tokenUser => {
+                                console.log("token user generated: " + tokenUser);
+
+                                res.status(200).cookie('token', tokenUser, {
+                                    httpOnly: true,
+                                    maxAge: 3600000 // 1 hour
+                                }).render('editMyUser',
+                                    {
+                                        title: 'Editar mi usuario',
+                                        userName: resultSet[0].name,
+                                        errorMessage: 'Actualización exitosa'
+                                    });
+                                return;
+                            }).catch(error => {
+                                console.log("Something went wrong while generating and sending the token user info due to: " + error);
+                                console.log(error);
+                            })
+                    });
+                }
             })
-        }
+        })
     })
 }
 
