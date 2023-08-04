@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const logOut = (req, res) => {
     const token = req.cookies.token;
 
@@ -28,7 +30,29 @@ const restorePassword = (req, res) => {
 
 }
 
+const authMiddleware = (req, res, next) => {
+    const userToken = req.cookies.token;
+
+    if (userToken) {
+        jwt.verify(userToken, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) {
+                console.log("Error while verifying the token: " + err);
+                res.status(401).redirect('/');
+
+                return;
+            }
+
+            next();
+        })
+        return;
+    }
+
+    res.status(401).redirect('/');
+
+}
+
 module.exports = {
     logOut: logOut,
-    restorePassword: restorePassword
+    restorePassword: restorePassword,
+    authMiddleware: authMiddleware,
 }

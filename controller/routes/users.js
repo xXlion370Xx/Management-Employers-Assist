@@ -4,8 +4,8 @@ const managementAsist = require('../../model/managementAsist');
 const managementUser = require('../../model/managementUser');
 
 
-router.get('/asist', managementAsist.getUserAsist);
-router.post('/asist', managementAsist.insertDate);
+router.get('/asist', managementUser.authMiddleware, managementAsist.getUserAsist);
+router.post('/asist', managementUser.authMiddleware, managementAsist.insertDate);
 
 
 router.get('/logout', managementUser.logOut);
