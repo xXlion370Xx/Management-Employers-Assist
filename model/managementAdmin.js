@@ -114,7 +114,7 @@ const getDataWorkers = (req, res) => {
             console.log(err);
         }
 
-        const sql = `SELECT a.id_asist as Id, b.name as Nombre, a.time_in as Ingreso, a.time_out as Salida, a.date as Fecha
+        const sql = `SELECT a.id_asist as Id, b.name as Nombre, a.time_in as Ingreso, a.time_out as Salida, a.date_out as FechaSalida, a.date_in as FechaIngreso
         FROM asist a 
         JOIN users b ON a.id_user = b.id
         WHERE b.id = ?` ;

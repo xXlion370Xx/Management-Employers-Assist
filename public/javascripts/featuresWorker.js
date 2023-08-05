@@ -3,8 +3,8 @@ async function getUserAssist(url) {
     return await response.json();
 }
 
-const url = "https://confeccioneslyz.onrender.com/users/asist";
-//const url = "http://localhost:3000/users/asist";
+//const url = "https://confeccioneslyz.onrender.com/users/asist";
+const url = "http://localhost:3000/users/asist";
 
 getUserAssist(url)
     .then(data => {
@@ -50,8 +50,9 @@ const showUserAssist = (dataAsist) => {
     for (const element of dataAsist) {
         const trElement = document.createElement("tr");
         const timeIn = element["time_in"];
+        const dateIn = element["date_in"];
         const timeOut = element["time_out"];
-        const date = element["date"];
+        const dateOut = element["date_out"];
 
         const tdElement1 = document.createElement("td");
         tdElement1.textContent = count;
@@ -62,12 +63,16 @@ const showUserAssist = (dataAsist) => {
         trElement.appendChild(tdElement2);
 
         const tdElement3 = document.createElement("td");
-        tdElement3.textContent = timeOut;
+        tdElement3.textContent = dateIn;
         trElement.appendChild(tdElement3);
 
         const tdElement4 = document.createElement("td");
-        tdElement4.textContent = date;
+        tdElement4.textContent = timeOut;
         trElement.appendChild(tdElement4);
+
+        const tdElement5 = document.createElement("td");
+        tdElement5.textContent = dateOut;
+        trElement.appendChild(tdElement5);
 
         documentFragment.appendChild(trElement);
         count++;

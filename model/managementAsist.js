@@ -114,7 +114,7 @@ const insertDate = (req, res) => {
                         updateEntry(conn, res, idUser, timeNow, dateNow);
                     }
                     if (exit) {
-                        updateExit(conn, res, tokenAssistId, timeNow);
+                        updateExit(conn, res, tokenAssistId, timeNow, dateNow);
                     }
                 });
             }).catch(err => {
@@ -136,7 +136,7 @@ const insertDate = (req, res) => {
 }
 
 const updateEntry = (conn, res, idUser, timeNow, dateNow) => {
-    const sql = "INSERT INTO asist (id_user, time_in, date) VALUES (?,?,?)";
+    const sql = "INSERT INTO asist (id_user, time_in, date_in) VALUES (?,?,?)";
     conn.query(sql, [idUser, timeNow, dateNow], (err, data) => {
         if (err) {
             console.log("query error");
@@ -154,9 +154,9 @@ const updateEntry = (conn, res, idUser, timeNow, dateNow) => {
     })
 }
 
-const updateExit = (conn, res, idAsist, timeNow) => {
-    const sql = "UPDATE asist SET time_out = ? WHERE id_asist = ?";
-    conn.query(sql, [timeNow, idAsist], (err, data) => {
+const updateExit = (conn, res, idAsist, timeNow, dateNow) => {
+    const sql = "UPDATE asist SET time_out = ?, date_out = ? WHERE id_asist = ?";
+    conn.query(sql, [timeNow, dateNow, idAsist], (err, data) => {
         if (err) {
             console.log("query error");
             console.log(err);

@@ -46,6 +46,7 @@
               <th>Id</th>
               <th>Usuario</th>
               <th>Ingreso</th>
+              <th>Fecha</th>
               <th>Salida</th>
               <th>Fecha</th>
             </tr>
@@ -63,10 +64,13 @@
                   <%= element.Ingreso %>
                 </td>
                 <td>
+                  <%= element.FechaIngreso %>
+                </td>
+                <td>
                   <%= element.Salida %>
                 </td>
                 <td>
-                  <%= element.Fecha %>
+                  <%= element.FechaSalida %>
                 </td>
               </tr>
               <% }) %>
