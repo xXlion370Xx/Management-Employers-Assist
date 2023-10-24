@@ -79,5 +79,4 @@ Sigue estos pasos para ejecutar el proyecto de manera local:
 
     Asegúrate de utilizar el puerto correcto si has modificado la configuración en el archivo `.env`.
 
-¡Listo! Ahora deberías tener el proyecto en funcionamiento en tu entorno local. Si necesitas realizar ajustes adicionales o configuraciones específicas, consulta la documentación del proyecto o las instrucciones proporcionadas por los desarrolladores.
-
+¡Listo! Ahora deberías tener el proyecto en funcionamiento en tu entorno local. Si necesitas realizar ajustes adicionales o configuraciones específicas, puedes dejar un mensaje.
