@@ -98,6 +98,7 @@ function filterDataAssist(tableId) {
             },
             lengthMenu: [5, 10, 25, 50, 75, 100],
             searching: false,
+            ordering: false,
         });
     });
     $('#tableAssist').show();
