@@ -1,82 +1,82 @@
 # ConfeccionesLYZNODEJS
-# Proyecto de Registro de Llegadas y Salidas de Empleados
+# Employee Arrivals and Departures Registration Project
 
-## Descripción
+## Description
 
-Este proyecto se basa en tener un registro de las entradas y salidas de los empleados en una empresa, para no tener un registro fisico en hoja de papel y así tener un mayor control de los mismos.
+This project is based on having a record of employee entries and exits in a company to avoid having a physical record on paper and thus have better control over them.
 
-## Características Destacadas
+## Key Features
 
-- **Seguimiento en Tiempo Real**: Nuestra aplicación permite a los empleados registrar sus llegadas y salidas de manera rápida y precisa, en tiempo real.
+- **Real-Time Tracking**: Our application allows employees to quickly and accurately record their arrivals and departures in real-time.
 
-- **Historial Detallado**: Se genera un historial completo y detallado de las horas de trabajo de cada empleado, lo que facilita la gestión de nóminas y la toma de decisiones basadas en datos.
+- **Detailed History**: A complete and detailed work hours history is generated for each employee, facilitating payroll management and data-driven decision-making.
 
-- **Interfaz Amigable**: Nuestro diseño intuitivo garantiza que tanto empleados como gerentes puedan utilizar la aplicación sin dificultades.
+- **User-Friendly Interface**: Our intuitive design ensures that both employees and managers can use the application without difficulty.
 
-## Beneficios
+## Benefits
 
-- **Ahorro de Tiempo y Recursos**: Reduzca la carga de trabajo administrativo al automatizar el seguimiento de las horas laborales.
+- **Time and Resource Savings**: Reduce administrative workload by automating time tracking.
 
-- **Precisión y Transparencia**: Elimine los errores humanos y garantice la precisión en el registro de horas.
+- **Accuracy and Transparency**: Eliminate human errors and ensure accuracy in timekeeping.
 
-- **Mejora de la Productividad**: Con información en tiempo real, se pueden tomar decisiones para mejorar la eficiencia laboral.
+- **Productivity Improvement**: With real-time information, decisions can be made to enhance workforce efficiency.
 
-## Tecnología Utilizada
+## Technology Used
 
-- **Lenguaje de Programación**: Utilizamos Node JS con Express para desarrollar la aplicación, aprovechando su documentación y amplio soporte.
+- **Programming Language**: We use Node.js with Express to develop the application, leveraging its documentation and broad support.
 
-- **Base de Datos**: Hemos implementado una base de datos MySQL para almacenar los registros de horas.
+- **Database**: We have implemented a MySQL database to store time records.
 
-- **Interfaz de Usuario**: La interfaz de usuario está diseñada con HTML, CSS y JavaScript para garantizar una experiencia fluida.
+- **User Interface**: The user interface is designed using HTML, CSS, and JavaScript to ensure a smooth experience.
 
-# Instrucciones para Ejecutar el Proyecto
+# Instructions to Run the Project
 
-Sigue estos pasos para ejecutar el proyecto de manera local:
+Follow these steps to run the project locally:
 
-1. **Crea un archivo de configuración `.env`**: 
+1. **Create a `.env` Configuration File**: 
 
-    - Crea un archivo llamado `.env` en la raíz del proyecto.
-    - Agrega las siguientes variables de entorno al archivo `.env`:
+    - Create a file named `.env` in the project's root.
+    - Add the following environment variables to the `.env` file:
 
     ```plaintext
-    DB_NAME = 'nombre de la base de datos'
+    DB_NAME = 'database name'
     DB_PASSWORD =
     DB_USER = root
     DB_HOST = localhost
-    JWT_SECRET = "Clave para el Json Web Token"
+    JWT_SECRET = "JSON Web Token Key"
     SER_PORT = 3000
     ```
 
-    Asegúrate de llenar los valores de las variables con la información correcta, como el nombre de la base de datos y la clave para el JSON Web Token.
+    Make sure to fill in the variable values with the correct information, such as the database name and the JSON Web Token key.
 
-2. **Instala las dependencias con npm**:
+2. **Install Dependencies with npm**:
 
-    Abre una terminal en la ubicación del proyecto y ejecuta el siguiente comando para instalar las dependencias del proyecto:
+    Open a terminal in the project's location and execute the following command to install project dependencies:
 
     ```bash
     npm install
     ```
 
-    Esto asegurará que todas las bibliotecas y módulos necesarios estén disponibles.
+    This will ensure that all necessary libraries and modules are available.
 
-3. **Inicia el servidor de desarrollo**:
+3. **Start the Development Server**:
 
-    Para ejecutar el proyecto en modo de desarrollo, utiliza el siguiente comando:
+    To run the project in development mode, use the following command:
 
     ```bash
     npm run start-dev
     ```
 
-    Esto iniciará el servidor en el puerto especificado (por defecto, el puerto 3000).
+    This will start the server on the specified port (default is port 3000).
 
-4. **Accede al proyecto en tu navegador**:
+4. **Access the Project in Your Browser**:
 
-    Una vez que el servidor de desarrollo esté en funcionamiento, abre tu navegador web y accede al proyecto a través de la siguiente dirección:
+    Once the development server is up and running, open your web browser and access the project at the following address:
 
     ```
     http://localhost:3000
     ```
 
-    Asegúrate de utilizar el puerto correcto si has modificado la configuración en el archivo `.env`.
+    Make sure to use the correct port if you have modified the configuration in the `.env` file.
 
-¡Listo! Ahora deberías tener el proyecto en funcionamiento en tu entorno local. Si necesitas realizar ajustes adicionales o configuraciones específicas, puedes dejar un mensaje.
+That's it! You should now have the project up and running in your local environment. If you need to make additional adjustments or have specific configuration questions, feel free to reach out.
