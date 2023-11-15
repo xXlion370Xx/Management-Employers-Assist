@@ -1,4 +1,3 @@
-# ConfeccionesLYZNODEJS
 # Employee Arrivals and Departures Registration Project
 
 ## Description
