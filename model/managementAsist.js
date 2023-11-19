@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const { query } = require('express');
 const generatorTokens = require('./UTILS/generatorTokens');
 const currentLocalTime = require('./UTILS/APIS');
 
@@ -10,11 +9,9 @@ const getUserAsist = (req, res) => {
         console.log("Don't provide an authentication token!");
         return res.status(401).send({ message: `Don't provide an authentication token!` });
     }
-    console.log("This is the token user: " + tokenUser);
+
     const decodedTokenUser = jwt.decode(tokenUser);
-    console.log("Token user decoded info");
-    console.log(decodedTokenUser);
-    console.log("id user: " + decodedTokenUser.id);
+
     req.getConnection((err, conn) => {
         if (err) {
             console.log("Error in get connection");
@@ -42,7 +39,6 @@ const getUserAsist = (req, res) => {
                     }]
                 generatorTokens.generateToken('1h', objResponse[0])
                     .then(tokenAssist => {
-                        console.log("Generating and creating token assist");
                         res.cookie('tokenAsist', tokenAssist, {
                             httpOnly: true,
                             maxAge: 3600000 // 1 hour
@@ -60,7 +56,6 @@ const getUserAsist = (req, res) => {
             const lastItemData = data[data.length - 1];
             generatorTokens.generateToken('1h', lastItemData)
                 .then(tokenAssist => {
-                    console.log("Generating and creating token assist");
                     res.cookie('tokenAsist', tokenAssist, {
                         httpOnly: true,
                         maxAge: 3600000, // 1 hour
@@ -82,7 +77,6 @@ const insertDate = (req, res) => {
     const tokenUser = req.cookies.token;
     const tokenAssist = req.cookies.tokenAsist;
     const { entry, exit } = req.body;
-    console.log("This is the token assist: " + tokenAssist);
 
     if (!tokenUser) {
         return res.status(401).send({ message: "Don't provide an authentication tokenUser!" });
@@ -93,13 +87,9 @@ const insertDate = (req, res) => {
 
     try {
         const decodedTokenUser = jwt.verify(tokenUser, process.env.JWT_SECRET);
-        console.log("Decoded token user info: ");
-        console.log(decodedTokenUser);
         const idUser = decodedTokenUser.id;
 
         const decodedTokenAssist = jwt.verify(tokenAssist, process.env.JWT_SECRET);
-        console.log("Decoded token assist info: ");
-        console.log(decodedTokenAssist);
         const tokenAssistId = decodedTokenAssist.id_asist;
 
         currentLocalTime.getCurrentLocalTime()

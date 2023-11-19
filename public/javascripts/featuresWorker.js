@@ -3,8 +3,11 @@ async function getUserAssist(url) {
     return await response.json();
 }
 
-const url = "https://confeccioneslyz.onrender.com/users/asist";
-//const url = "http://localhost:3000/users/asist";
+let url = "https://confeccioneslyz.onrender.com/users/asist";
+
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    url = "http://localhost:3000/users/asist";
+}
 
 getUserAssist(url)
     .then(data => {
