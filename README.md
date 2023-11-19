@@ -1,4 +1,3 @@
-# ConfeccionesLYZNODEJS
 # Proyecto de Registro de Llegadas y Salidas de Empleados
 
 ## Descripción
