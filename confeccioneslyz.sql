@@ -31,26 +31,17 @@ USE `bbceotkonspdu2ck0hv2`;
 --
 
 CREATE TABLE `asist` (
-  `id_asist` int NOT NULL,
-  `id_user` int DEFAULT NULL,
-  `time_in` varchar(25) DEFAULT NULL,
-  `time_out` varchar(25) DEFAULT NULL,
-  `date` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_asist` int NOT NULL AUTO_INCREMENT,
+  `id_user` int,
+  `time_in` varchar(25),
+  `time_out` varchar(25),
+  `date_out` varchar(50),
+  `date_in` varchar(50),
+   PRIMARY KEY (`id_asist`),
+   KEY `id_user` (`id_user`)
+ ) ENGINE InnoDB,
+  CHARSET utf8mb3;
 
---
--- Dumping data for table `asist`
---
-
-INSERT INTO `asist` (`id_asist`, `id_user`, `time_in`, `time_out`, `date`) VALUES
-(1, 2, '10:49', '10:49', '07/23/2023'),
-(2, 2, '10:49', '10:50', '07/23/2023'),
-(3, 2, '10:50', '10:50', '07/23/2023'),
-(4, 2, '10:50', '10:50', '07/23/2023'),
-(5, 2, '10:50', '10:50', '07/23/2023'),
-(6, 2, '10:50', '10:50', '07/23/2023'),
-(7, 2, '10:50', '10:50', '07/23/2023'),
-(8, 2, '10:50', NULL, '07/23/2023');
 
 -- --------------------------------------------------------
 
